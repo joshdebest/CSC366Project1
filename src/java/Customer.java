@@ -28,7 +28,7 @@ public class Customer implements Serializable {
     private String address;
     private Date created_date;
 
-
+    
     public Integer getCustomerID() throws SQLException {
         if (customerID == null) {
             Connection con = dbConnect.getConnection();

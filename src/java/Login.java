@@ -1,6 +1,11 @@
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.faces.application.FacesMessage;
@@ -27,7 +32,7 @@ import javax.inject.Named;
 public class Login implements Serializable {
 
     private String login;
-
+    private DBConnect dbConnect = new DBConnect();
    
     private String password;
     private UIInput loginUI;
@@ -60,11 +65,29 @@ public class Login implements Serializable {
             throws ValidatorException, SQLException {
         login = loginUI.getLocalValue().toString();
         password = value.toString();
+        
+        Connection con = dbConnect.getConnection();
 
-        if (!((login.equals("a") && password.equals("a")))) {
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "select customer.id from customer where customer.login = ? AND customer.login = ?");
+        ps.setString(1, login);
+        ps.setString(2, password);
+        
+        //get customer data from database
+        ResultSet result = ps.executeQuery();
+
+        if(!(result.next())) {
             FacesMessage errorMessage = new FacesMessage("Wrong login/password");
             throw new ValidatorException(errorMessage);
         }
+        
+        result.close();
+        con.close();
     }
 
     public String go() {

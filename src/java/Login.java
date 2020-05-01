@@ -94,5 +94,10 @@ public class Login implements Serializable {
         //Util.invalidateUserSession();
         return "success";
     }
+     
+    public String register() {
+        //Util.invalidateUserSession();
+        return "register";
+    }
 
 }

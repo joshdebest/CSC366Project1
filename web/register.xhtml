@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
+        <title>Register</title>
+        <h1>Registration Screen</h1>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="3">
+
+                Login: <h:inputText value="#{register.login}" required ="true"
+                                    binding="#{register.loginUI}"
+                                    requiredMessage="Your must enter a login."
+                                    id="login"/>
+                <h:message for="login" style="color:red;margin:8px;"/>
+
+                Password: <h:inputText value="#{register.password}" required ="true"
+                                        requiredMessage="Your must enter a password."
+                                        validatorMessage="Your password must be at least six characters long and include at least one number."
+                                        validator="#{register.validatePassword}"
+                                        id="password"/>
+                <h:message for="password" style="color:red;margin:8px;"/>
+                
+                First Name: <h:inputText value="#{register.first_name}" required ="true"
+                                        requiredMessage="Your must enter your first name."
+                                        id="first_name"/>
+                <h:message for="first_name" style="color:red;margin:8px;"/>
+                
+                Last Name: <h:inputText value="#{register.last_name}" required ="true"
+                                        requiredMessage="Your must enter your last name." 
+                                        id="last_name"/>
+                <h:message for="last_name" style="color:red;margin:8px;"/>
+                
+                Email: <h:inputText value="#{register.email}" required ="true"
+                                        validatorMessage="This email is invalid."
+                                        validator="#{register.validateEmail}"
+                                        requiredMessage="Your must enter an email."
+                                        id="email"/>
+                <h:message for="email" style="color:red;margin:8px;"/>
+                
+                Address: <h:inputText value="#{register.address}" required ="true"
+                                         requiredMessage="Your must enter your address."
+                                         id="address"/>
+                <h:message for="address" style="color:red;margin:8px;"/>
+                
+                Credit Card Number: <h:inputText value="#{register.cc_num}" required ="true"
+                                        validatorMessage="This credit card number is invalid."
+                                        validator="#{register.validateCCNum}"
+                                        requiredMessage="Your must enter a credit card number."
+                                        id="cc_num"/>
+                <h:message for="cc_num" style="color:red;margin:8px;"/>
+                
+                Credit Card CRC: <h:inputText value="#{register.cc_ccv}" required ="true"
+                                        validatorMessage="This credit card crc number is invalid."
+                                        validator="#{register.validateCCV}"
+                                        requiredMessage="Your must enter a credit card crc number."
+                                        id="cc_ccv"/>
+                <h:message for="cc_ccv" style="color:red;margin:8px;"/>
+                
+                Credit Card Expiration Date: <h:inputText value="#{register.cc_date}" required ="true"
+                                        validatorMessage="This date is invalid. Must be mm/dd/yyyy"
+                                        validator="#{register.validateCCDate}"
+                                        requiredMessage="Your must enter a credit card expiration date."
+                                        id="cc_date"/>
+                <h:message for="cc_date" style="color:red;margin:8px;"/>                
+                
+            </h:panelGrid>
+            <h:panelGrid>
+                <h:commandButton value="Go" action="#{register.go}"/>               
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+
+

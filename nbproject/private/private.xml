@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/web/WEB-INF/faces-config.xml</file>
+            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/src/java/Register.java</file>
+            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/web/register.xhtml</file>
+            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/src/java/Login.java</file>
+            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/web/index.xhtml</file>
+        </group>
     </open-files>
 </project-private>

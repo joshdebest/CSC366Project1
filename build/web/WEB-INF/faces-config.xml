@@ -23,6 +23,11 @@
         <managed-bean-class>Login</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>  
+    <managed-bean>
+        <managed-bean-name>register</managed-bean-name>
+        <managed-bean-class>Register</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>  
     <navigation-rule>
         <from-view-id>
             /index.xhtml
@@ -30,6 +35,19 @@
         <navigation-case>
             <from-outcome>success</from-outcome>
             <to-view-id>start.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>register.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>
+            /register.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
     <navigation-rule>

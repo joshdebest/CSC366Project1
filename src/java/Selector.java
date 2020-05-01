@@ -18,7 +18,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class Selector implements Serializable {
 
-    private String[] choices = {"Create New Customer", "List All Customers", "Find Customer", "Delete Customer"};
+    private String[] choices = {"List All Customers"};
     private String choice;
 
     public String[] getChoices() {
@@ -39,14 +39,8 @@ public class Selector implements Serializable {
 
     public String transition() {
         switch (choice) {
-            case "Create New Customer":
-                return "newCustomer";
             case "List All Customers":
                 return "listCustomers";
-            case "Find Customer":
-                return "findCustomer";
-            case "Delete Customer":
-                return "deleteCustomer";
             default:
                 return null;
         }

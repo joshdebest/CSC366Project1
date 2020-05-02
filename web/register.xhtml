@@ -41,10 +41,20 @@
                                         id="email"/>
                 <h:message for="email" style="color:red;margin:8px;"/>
                 
-                Address: <h:inputText value="#{register.address}" required ="true"
-                                         requiredMessage="Your must enter your address."
-                                         id="address"/>
-                <h:message for="address" style="color:red;margin:8px;"/>
+                Street Address: <h:inputText value="#{register.street_address}" required ="true"
+                                         requiredMessage="Your must enter your street address."
+                                         id="street_address"/>
+                <h:message for="street_address" style="color:red;margin:8px;"/>
+                
+                City: <h:inputText value="#{register.city}" required ="true"
+                                         requiredMessage="Your must enter your city."
+                                         id="city"/>
+                <h:message for="city" style="color:red;margin:8px;"/>
+                
+                State: <h:inputText value="#{register.state}" required ="true"
+                                         requiredMessage="Your must enter your state."
+                                         id="state"/>
+                <h:message for="state" style="color:red;margin:8px;"/>
                 
                 Credit Card Number: <h:inputText value="#{register.cc_num}" required ="true"
                                         validatorMessage="This credit card number is invalid."

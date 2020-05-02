@@ -143,6 +143,7 @@ public class Employee implements Serializable {
                 + "floor integer NOT NULL, "
                 + "view text NOT NULL, "
                 + "bed_type text NOT NULL, "
+                + "base_price money NOT NULL DEFAULT 100, "
                 + "PRIMARY KEY (room_num))");
         ps.execute();
         

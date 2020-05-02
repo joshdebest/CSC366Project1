@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.sql.ResultSet;
 
 import javax.annotation.ManagedBean;
+import javax.el.ELContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -159,6 +161,27 @@ public class Register implements Serializable {
             throw new ValidatorException(errorMessage);
         }
     }
+    public void validateUsername(FacesContext context, UIComponent component, Object value)
+            throws ValidatorException, SQLException{
+        login = value.toString();
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        PreparedStatement ps = con.prepareStatement(
+                        "select customer.id from customer where customer.username = ?");
+        ps.setString(1, login);
+        
+        ResultSet result = ps.executeQuery();
+
+        if(result.next()) {
+            result.close();
+            con.close();
+            FacesMessage errorMessage = new FacesMessage("Email is already taken.");
+            throw new ValidatorException(errorMessage);
+        }
+    }
     
     public void validateEmail(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
@@ -234,7 +257,6 @@ public class Register implements Serializable {
     }
 
     public String go() throws ValidatorException, SQLException {
-        //Util.invalidateUserSession();
         Connection con = dbConnect.getConnection();
         
         Date inputDate = new Date(cc_date_year, cc_date_month, cc_date_day);
@@ -262,8 +284,34 @@ public class Register implements Serializable {
         
         con.close();
         
-        System.out.println("Just put it in?");
+        return "success";
+    }
+    
+    public String update() throws ValidatorException, SQLException {
+        Connection con = dbConnect.getConnection();
+       
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        Login outerLogin = (Login) elContext.getELResolver().getValue(elContext, null, "login");
+        System.out.println(outerLogin.getLogin());
+       
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "UPDATE employee SET username = ?, password = ? WHERE employee.id = ?");
+        System.out.println("Password");
+        System.out.println(outerLogin.getPassword());
+        ps.setString(1, outerLogin.getLogin());
+        ps.setString(2, outerLogin.getPassword());
+        ps.setInt(3, outerLogin.getId());
+        
+        ps.executeUpdate();
+        
+        con.close();
         
         return "success";
     }
+    
 }

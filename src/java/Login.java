@@ -33,8 +33,24 @@ public class Login implements Serializable {
     private DBConnect dbConnect = new DBConnect();
    
     private String password;
+    
+    private boolean isEmployee;
+    private int id;
+    
     private UIInput loginUI;
 
+    public boolean isEmployee() {
+        return isEmployee;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+        
     public UIInput getLoginUI() {
         return loginUI;
     }
@@ -77,18 +93,38 @@ public class Login implements Serializable {
         ps.setString(2, password);
         
         //get customer data from database
+
         ResultSet result = ps.executeQuery();
 
-        if(!(result.next())) {
-            FacesMessage errorMessage = new FacesMessage("Wrong login/password");
-            throw new ValidatorException(errorMessage);
+        if(result.next()) {
+            id = result.getInt("id");
+            result.close();
+            con.close();
+            isEmployee = false;
+            return; 
         }
         
-        result.close();
-        con.close();
+        ps = con.prepareStatement(
+                        "select employee.id from employee where employee.username = ? AND employee.password = ?");
+        ps.setString(1, login);
+        ps.setString(2, password);
+        
+        result = ps.executeQuery();
+
+        if(result.next()) {
+            id = result.getInt("id");
+            result.close();
+            con.close();
+            isEmployee = true;
+            return; 
+        }
+        
+        FacesMessage errorMessage = new FacesMessage("Wrong login/password");
+        throw new ValidatorException(errorMessage);       
     }
 
     public String go() {
+        
         //Util.invalidateUserSession();
         return "success";
     }

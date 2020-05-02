@@ -15,14 +15,14 @@
             </ui:define>
 
             <ui:define name="header">
-                Main Page
+                Main Page 
             </ui:define>
 
             <ui:define name="box">
                 <h:form>
                     What do you want to do? 
                     <h:selectOneMenu value="#{selector.choice}">
-                        <f:selectItems value="#{selector.choices}"/>
+                        <f:selectItems value="#{selector.getChoices()}"/>
                     </h:selectOneMenu>
                     <h:commandButton value = "Go" action="#{selector.transition()}"/>
                 </h:form>

@@ -5,9 +5,18 @@
  */
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import javax.el.ELContext;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 /**
  *
@@ -18,18 +27,57 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class Selector implements Serializable {
 
-    private String[] choices = {"List All Customers"};
+    private ArrayList<String> choices = new ArrayList<>(Arrays.asList("List All Customers"));
+    private DBConnect dbConnect = new DBConnect();
     private String choice;
 
     public String[] getChoices() {
-        return choices;
+        String[] temp = new String[choices.size()];
+        for(int i = 0; i < choices.size(); i++){
+            temp[i] = choices.get(i);
+        }
+        return temp;
     }
 
     public void setChoices(String[] choices) {
-        this.choices = choices;
+        ArrayList<String> temp = new ArrayList<>();
+        for(int i = 0; i < choices.length; i++){
+            temp.add(choices[i]);
+        }
+        this.choices = temp;
+    }
+    
+    private boolean isAdmin(String username)throws ValidatorException, SQLException{
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "select employee.id from employee where employee.username = ? AND employee.is_admin");
+        ps.setString(1, username);
+        
+        //get employee data from database
+
+        ResultSet result = ps.executeQuery();
+
+        return result.next();
+    }
+    
+    private boolean isCustomer(){
+        return true;
     }
 
-    public String getChoice() {
+    public String getChoice() throws SQLException {
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
+        
+        if(isAdmin(login.getLogin())){
+            choices.add("Change username/password");
+        }
+        
         return choice;
     }
 
@@ -41,6 +89,8 @@ public class Selector implements Serializable {
         switch (choice) {
             case "List All Customers":
                 return "listCustomers";
+            case "Change username/password":
+                return "changeSettings";
             default:
                 return null;
         }

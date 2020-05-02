@@ -12,11 +12,13 @@
             <h:panelGrid columns="3">
 
                 Login: <h:inputText value="#{register.login}" required ="true"
-                                    binding="#{register.loginUI}"
-                                    requiredMessage="Your must enter a login."
-                                    id="login"/>
+                                        requiredMessage="Your must enter a username."
+                                        validatorMessage="Username already in use."
+                                        validator="#{register.validateUsername}"
+                                        binding="#{register.loginUI}"
+                                        id="login"/>
                 <h:message for="login" style="color:red;margin:8px;"/>
-
+                
                 Password: <h:inputText value="#{register.password}" required ="true"
                                         requiredMessage="Your must enter a password."
                                         validatorMessage="Your password must be at least six characters long and include at least one number."

@@ -13,7 +13,7 @@
                 Login: <h:inputText value="#{login.login}" required ="true"
                                     binding="#{login.loginUI}"
                                     validatorMessage="Username already in use."    
-                                    validator="#{register.validateUsername}"
+                                    validator="#{employee.validateUsername}"
                                     requiredMessage="Your must enter a login."
                                     id="login"/>
                 <h:message for="login" style="color:red;margin:8px;"/>

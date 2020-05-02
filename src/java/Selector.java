@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import javax.el.ELContext;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
@@ -33,8 +34,9 @@ public class Selector implements Serializable {
 
     public String[] getChoices() {
         String[] temp = new String[choices.size()];
-        for(int i = 0; i < choices.size(); i++){
-            temp[i] = choices.get(i);
+        List<String> condenser = choices;
+        for(int i = 0; i < condenser.size(); i++){
+            temp[i] = condenser.get(i);
         }
         return temp;
     }
@@ -76,6 +78,8 @@ public class Selector implements Serializable {
         
         if(isAdmin(login.getLogin())){
             choices.add("Change username/password");
+            choices.add("Add employee account");
+            choices.add("Rebuild Room Database");
         }
         
         return choice;
@@ -91,6 +95,12 @@ public class Selector implements Serializable {
                 return "listCustomers";
             case "Change username/password":
                 return "changeSettings";
+            case "Add employee account":
+                return "createEmployee";
+            case "Rebuild Room Database":
+                return "rebuildRooms";    
+            
+                
             default:
                 return null;
         }

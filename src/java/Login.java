@@ -35,7 +35,7 @@ public class Login implements Serializable {
     private String password;
     
     private boolean isEmployee;
-    private int id;
+    private int id = 0;
     
     private UIInput loginUI;
 

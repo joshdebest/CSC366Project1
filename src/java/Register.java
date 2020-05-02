@@ -161,6 +161,7 @@ public class Register implements Serializable {
             throw new ValidatorException(errorMessage);
         }
     }
+    
     public void validateUsername(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException{
         login = value.toString();
@@ -174,6 +175,18 @@ public class Register implements Serializable {
         ps.setString(1, login);
         
         ResultSet result = ps.executeQuery();
+
+        if(result.next()) {
+            result.close();
+            con.close();
+            FacesMessage errorMessage = new FacesMessage("Email is already taken.");
+            throw new ValidatorException(errorMessage);
+        }
+        ps = con.prepareStatement(
+                        "select employee.id from employee where employee.username = ?");
+        ps.setString(1, login);
+        
+        result = ps.executeQuery();
 
         if(result.next()) {
             result.close();

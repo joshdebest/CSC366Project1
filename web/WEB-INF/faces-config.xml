@@ -27,6 +27,11 @@
         <managed-bean-name>register</managed-bean-name>
         <managed-bean-class>Register</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>employee</managed-bean-name>
+        <managed-bean-class>Employee</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>  
     <navigation-rule>
         <from-view-id>
@@ -62,6 +67,23 @@
             <from-outcome>changeSettings</from-outcome>
             <to-view-id>employeeSettings.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>createEmployee</from-outcome>
+            <to-view-id>createNewEmployee.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>rebuildRooms</from-outcome>
+            <to-view-id>buildFloorDB.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>
+            /createNewEmployee.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>start.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>
@@ -75,6 +97,15 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>main</from-outcome>
+            <to-view-id>start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>
+            /buildFloorDB.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
             <to-view-id>start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>

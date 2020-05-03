@@ -24,11 +24,22 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class Selector implements Serializable {
 
-    private List<String> choices = new ArrayList<>(Arrays.asList("List All Customers"));
+    private List<String> choices;
     private DBConnect dbConnect = new DBConnect();
     private String choice;
 
     public String[] getChoices() {
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
+        choices = new ArrayList<>(Arrays.asList("List All Customers"));
+        if(login.isAdmin()){
+            choices.add("Change username/password");
+            choices.add("Add employee account");
+            choices.add("Rebuild Room Database");
+        }
+        else if(login.isCustomer()){
+            choices.add("Make reservtion");
+        }
         String[] temp = new String[choices.size()];
         List<String> condenser = choices;
         for(int i = 0; i < condenser.size(); i++){
@@ -46,18 +57,6 @@ public class Selector implements Serializable {
     }
 
     public String getChoice() throws SQLException {
-        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-        Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
-        
-        if(login.isAdmin()){
-            choices.add("Change username/password");
-            choices.add("Add employee account");
-            choices.add("Rebuild Room Database");
-        }
-        else if(login.isCustomer()){
-            choices.add("Make reservtion");
-        }
-        
         return choice;
     }
 

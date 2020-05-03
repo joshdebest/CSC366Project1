@@ -1,10 +1,17 @@
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.ManagedBean;
+import javax.el.ELContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -39,9 +46,60 @@ public class Reservation implements Serializable {
     private int end_year;
     private String startDateErrorMessage = "";
     private String endDateErrorMessage = "";
+    private String room_num;
+    private String choice;
+    private List<String> choices;
     
     private DBConnect dbConnect = new DBConnect();
 
+    public String getChoice() {
+        return choice;
+    }
+
+    public void setChoice(String choice) {
+        this.choice = choice;
+    }
+
+    public String[] getChoices() throws SQLException {
+        System.out.println("HERE 1");
+        choices = new ArrayList<>();
+        String niceStr;
+        System.out.println("HERE 1");
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        System.out.println("HERE 1");
+        PreparedStatement ps = con.prepareStatement("select room_num, view, bed_type from room");
+        
+        ResultSet result = ps.executeQuery();
+        System.out.println("HERE 1");
+        while (result.next()) {
+            niceStr = result.getString("room_num") + " -- " + result.getString("view")
+                    + " view -- " + result.getString("bed_type");
+            choices.add(niceStr);
+        }
+        result.close(); 
+        con.close();
+        System.out.println("HERE 1");
+        String[] temp = new String[choices.size()];
+        List<String> condenser = choices;
+        for(int i = 0; i < condenser.size(); i++){
+            temp[i] = condenser.get(i);
+        }
+        System.out.println("HERE 1");
+        return temp;
+    }
+
+    public String getRoom_num() {
+        return room_num;
+    }
+
+    public void setRoom_num(String room_num) {
+        this.room_num = room_num;
+    }
+    
     public String getEndDateErrorMessage() {
         return endDateErrorMessage;
     }
@@ -196,12 +254,17 @@ public class Reservation implements Serializable {
         else{
             System.out.println("I KNEW IT PART 2");
         }
-    }    
-
+    }   
+    
     public String go() throws ValidatorException, SQLException {
-        /*Connection con = dbConnect.getConnection();
+        return "success";
+    }
+
+    public String createRes() throws ValidatorException, SQLException {
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
         
-        //Date inputDate = new Date(cc_date_year, cc_date_month, cc_date_day);
+        Connection con = dbConnect.getConnection();
 
         if (con == null) {
             throw new SQLException("Can't get database connection");
@@ -209,23 +272,15 @@ public class Reservation implements Serializable {
 
         PreparedStatement ps
                 = con.prepareStatement(
-                        "INSERT INTO customer VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        ps.setString(1, login);
-        ps.setString(2, password);
-        ps.setString(3, first_name);
-        ps.setString(4, last_name);
-        ps.setString(5, email);
-        ps.setString(6, street_address);
-        ps.setString(7, city);
-        ps.setString(8, state);
-        ps.setString(9, cc_num);
-        ps.setString(10, cc_ccv);
-        ps.setDate(11, inputDate);
+                        "INSERT INTO reservation VALUES (?, ?, ?, ?)");
+        ps.setDate(1, start_date);
+        ps.setDate(2, end_date);
+        ps.setString(3, choice.substring(0, 3));
+        ps.setInt(4, login.getId());
         
         ps.executeUpdate();
         
         con.close();
-        */
         return "success";
     }    
 }

@@ -1,6 +1,5 @@
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,8 +85,6 @@ public class Employee implements Serializable {
         ps = con.prepareStatement(
                         "select employee.id from employee where employee.username = ? AND employee.id != ?");
         ps.setString(1, username);
-        System.out.println("CHECK");
-        System.out.println(outerLogin.getId());
         ps.setInt(2, outerLogin.getId());
         
         result = ps.executeQuery();        
@@ -173,7 +170,6 @@ public class Employee implements Serializable {
                 ps.setString(3, view);
                 ps.setString(4, bed_type);
                 ps.executeUpdate();
-                System.out.println(formatNum);
             }
         }
         con.close();

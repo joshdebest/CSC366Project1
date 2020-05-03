@@ -11,24 +11,24 @@
         <h:form>
             <h:panelGrid columns="3">
 
-                Login: <h:inputText value="#{register.login}" required ="true"
-                                        requiredMessage="Your must enter a username."
-                                        validatorMessage="Username already in use."
-                                        validator="#{register.validateUsername}"
-                                        binding="#{register.loginUI}"
-                                        id="login"/>
-                <h:message for="login" style="color:red;margin:8px;"/>
+                Username: <h:inputText value="#{register.username}" required ="true"
+                                       requiredMessage="Your must enter a username."
+                                       validatorMessage="#{register.usernameErrorMessage}"
+                                       validator="#{register.validateUsername}"
+                                       binding="#{register.loginUI}"
+                                       id="username"/>
+                <h:message for="username" style="color:red;margin:8px;"/>
                 
                 Password: <h:inputText value="#{register.password}" required ="true"
-                                        requiredMessage="Your must enter a password."
-                                        validatorMessage="Your password must be at least six characters long and include at least one number."
-                                        validator="#{register.validatePassword}"
-                                        id="password"/>
+                                       requiredMessage="Your must enter a password."
+                                       validatorMessage="#{register.passwordErrorMessage}"
+                                       validator="#{register.validatePassword}"
+                                       id="password"/>
                 <h:message for="password" style="color:red;margin:8px;"/>
                 
                 First Name: <h:inputText value="#{register.first_name}" required ="true"
-                                        requiredMessage="Your must enter your first name."
-                                        id="first_name"/>
+                                         requiredMessage="Your must enter your first name."
+                                         id="first_name"/>
                 <h:message for="first_name" style="color:red;margin:8px;"/>
                 
                 Last Name: <h:inputText value="#{register.last_name}" required ="true"
@@ -37,46 +37,46 @@
                 <h:message for="last_name" style="color:red;margin:8px;"/>
                 
                 Email: <h:inputText value="#{register.email}" required ="true"
-                                        validatorMessage="This email is invalid."
-                                        validator="#{register.validateEmail}"
-                                        requiredMessage="Your must enter an email."
-                                        id="email"/>
+                                    validatorMessage="This email is invalid."
+                                    validator="#{register.validateEmail}"
+                                    requiredMessage="Your must enter an email."
+                                    id="email"/>
                 <h:message for="email" style="color:red;margin:8px;"/>
                 
                 Street Address: <h:inputText value="#{register.street_address}" required ="true"
-                                         requiredMessage="Your must enter your street address."
-                                         id="street_address"/>
+                                             requiredMessage="Your must enter your street address."
+                                             id="street_address"/>
                 <h:message for="street_address" style="color:red;margin:8px;"/>
                 
                 City: <h:inputText value="#{register.city}" required ="true"
-                                         requiredMessage="Your must enter your city."
-                                         id="city"/>
+                                   requiredMessage="Your must enter your city."
+                                   id="city"/>
                 <h:message for="city" style="color:red;margin:8px;"/>
                 
                 State: <h:inputText value="#{register.state}" required ="true"
-                                         requiredMessage="Your must enter your state."
-                                         id="state"/>
+                                    requiredMessage="Your must enter your state."
+                                    id="state"/>
                 <h:message for="state" style="color:red;margin:8px;"/>
                 
                 Credit Card Number: <h:inputText value="#{register.cc_num}" required ="true"
-                                        validatorMessage="This credit card number is invalid."
-                                        validator="#{register.validateCCNum}"
-                                        requiredMessage="Your must enter a credit card number."
-                                        id="cc_num"/>
+                                                 validatorMessage="#{register.ccNumErrorMesssage}"
+                                                 validator="#{register.validateCCNum}"
+                                                 requiredMessage="Your must enter a credit card number."
+                                                 id="cc_num"/>
                 <h:message for="cc_num" style="color:red;margin:8px;"/>
                 
-                Credit Card CRC: <h:inputText value="#{register.cc_ccv}" required ="true"
-                                        validatorMessage="This credit card crc number is invalid."
-                                        validator="#{register.validateCCV}"
-                                        requiredMessage="Your must enter a credit card crc number."
-                                        id="cc_ccv"/>
-                <h:message for="cc_ccv" style="color:red;margin:8px;"/>
+                Credit Card CRC: <h:inputText value="#{register.cc_crc}" required ="true"
+                                              validatorMessage="#{register.ccCRCErrorMessage}"
+                                              validator="#{register.validateCRC}"
+                                              requiredMessage="Your must enter a credit card crc number."
+                                              id="cc_crc"/>
+                <h:message for="cc_crc" style="color:red;margin:8px;"/>
                 
                 Credit Card Expiration Date: <h:inputText value="#{register.cc_date}" required ="true"
-                                        validatorMessage="This date is invalid. Must be mm/dd/yyyy"
-                                        validator="#{register.validateCCDate}"
-                                        requiredMessage="Your must enter a credit card expiration date."
-                                        id="cc_date"/>
+                                                          validatorMessage="#{register.dateErrorMessage}"
+                                                          validator="#{register.validateCCDate}"
+                                                          requiredMessage="Your must enter a credit card expiration date."
+                                                          id="cc_date"/>
                 <h:message for="cc_date" style="color:red;margin:8px;"/>                
                 
             </h:panelGrid>

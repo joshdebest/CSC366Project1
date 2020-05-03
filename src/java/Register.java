@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Date;
-import java.sql.ResultSet;
 
 import javax.annotation.ManagedBean;
 import javax.el.ELContext;
@@ -31,7 +30,7 @@ import javax.inject.Named;
 @ManagedBean
 public class Register implements Serializable {
 
-    private String login;
+    private String username;
     private String password;
     private String first_name;
     private String last_name;
@@ -40,165 +39,86 @@ public class Register implements Serializable {
     private String city; 
     private String state; 
     private String cc_num;
-    private String cc_ccv;
+    private String cc_crc;
     private String cc_date;
     private int cc_date_month;
     private int cc_date_day;
     private int cc_date_year;
     
+    private String dateErrorMessage;
+    private String passwordErrorMessage;
+    private String usernameErrorMessage;
+    private String ccNumErrorMesssage;
+    private String ccCRCErrorMessage;
+    private String ccDateErrorMessage;
+    
     private DBConnect dbConnect = new DBConnect();  
     private UIInput loginUI;
 
-    public String getCc_date() {
-        return cc_date;
-    }
+    /* So many stupid getters and setters. I really should go through and clean these up */
+    public String getDateErrorMessage() {return dateErrorMessage;}
+    public void setDateErrorMessage(String dateErrorMessage) {this.dateErrorMessage = dateErrorMessage;}
+    public String getCc_date() {return cc_date;}
+    public void setCc_date(String cc_date) {this.cc_date = cc_date;}
+    public void setCc_num(String cc_num) {this.cc_num = cc_num;}
+    public void setCc_crc(String cc_ccv) {this.cc_crc = cc_ccv;}
+    public String getCc_num() {return cc_num;}
+    public String getCc_crc() {return cc_crc;}
+    public void setFirst_name(String first_name) {this.first_name = first_name;}
+    public void setLast_name(String last_name) {this.last_name = last_name;}
+    public void setEmail(String email) {this.email = email;}
+    public String getFirst_name() {return first_name;}
+    public String getLast_name() {return last_name;}
+    public String getEmail() {return email;}
+    public UIInput getLoginUI() {return loginUI;}
+    public void setLoginUI(UIInput loginUI) {this.loginUI = loginUI;}
+    public String getUsername() {return username;}
+    public void setUsername(String login) {this.username = login;}
+    public String getPassword() {return password;}
+    public void setPassword(String password) {this.password = password;}
+    public String getStreet_address() {return street_address;}
+    public void setStreet_address(String street_address) {this.street_address = street_address;}
+    public String getCity() {return city;}
+    public void setCity(String city) {this.city = city;}
+    public String getState() {return state;}
+    public void setState(String state) {this.state = state;}
+    public String getPasswordErrorMessage() {return passwordErrorMessage;}
+    public void setPasswordErrorMessage(String passwordErrorMessage) {this.passwordErrorMessage = passwordErrorMessage;}
+    public String getUsernameErrorMessage() {return usernameErrorMessage;}
+    public void setUsernameErrorMessage(String usernameErrorMessage) {this.usernameErrorMessage = usernameErrorMessage;}
+    public String getCcNumErrorMesssage() {return ccNumErrorMesssage;}
+    public void setCcNumErrorMesssage(String ccNumErrorMesssage) {this.ccNumErrorMesssage = ccNumErrorMesssage;}
+    public String getCcCRCErrorMessage() {return ccCRCErrorMessage;}
+    public void setCcCRCErrorMessage(String ccCRCErrorMessage) {this.ccCRCErrorMessage = ccCRCErrorMessage;}
+    public String getCcDateErrorMessage() {return ccDateErrorMessage;}
+    public void setCcDateErrorMessage(String ccDateErrorMessage) {this.ccDateErrorMessage = ccDateErrorMessage;}
     
-    public void setCc_date(String cc_date) {
-        this.cc_date = cc_date;
-    }
-    
-    public void setCc_num(String cc_num) {
-        this.cc_num = cc_num;
-    }
-    
-    public void setCc_ccv(String cc_ccv) {
-        this.cc_ccv = cc_ccv;
-    }
-    
-    public String getCc_num() {
-        return cc_num;
-    }
-    
-    public String getCc_ccv() {
-        return cc_ccv;
-    }
-    
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-    
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getFirst_name() {
-        return first_name;
-    }
-    
-    public String getLast_name() {
-        return last_name;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public UIInput getLoginUI() {
-        return loginUI;
-    }
-    
-    public void setLoginUI(UIInput loginUI) {
-        this.loginUI = loginUI;
-    }
-    
-    public String getLogin() {
-        return login;
-    }
-    
-    public void setLogin(String login) {
-        this.login = login;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public String getStreet_address() {
-        return street_address;
-    }
-    
-    public void setStreet_address(String street_address) {
-        this.street_address = street_address;
-    }
-    
-    public String getCity() {
-        return city;
-    }
-    
-    public void setCity(String city) {
-        this.city = city;
-    }
-    
-    public String getState() {
-        return state;
-    }
-    
-    public void setState(String state) {
-        this.state = state;
-    }  
-    
-    private static boolean containsDigit(final String aString){
-        return aString != null && !aString.isEmpty() && aString.chars().anyMatch(Character::isDigit);
-    }
-
     public void validatePassword(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
-        password = value.toString();
-        if(password.length() < 6){
-            FacesMessage errorMessage = new FacesMessage("Password not long enough");
-            throw new ValidatorException(errorMessage);
-        }
-        if(!(containsDigit(password))){
-            FacesMessage errorMessage = new FacesMessage("Password had no numbers");
+        String returnable = Validation.validatePassword(value.toString());
+        
+        if(!(returnable.equals("valid"))){
+            passwordErrorMessage = returnable;
+            FacesMessage errorMessage = new FacesMessage(passwordErrorMessage);
             throw new ValidatorException(errorMessage);
         }
     }
     
     public void validateUsername(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException{
-        login = value.toString();
-        Connection con = dbConnect.getConnection();
         
-        if (con == null) {
-            throw new SQLException("Can't get database connection");
-        }
-        PreparedStatement ps = con.prepareStatement(
-                        "select customer.id from customer where customer.username = ?");
-        ps.setString(1, login);
+        String returnable = Validation.validateUsername(value.toString());
         
-        ResultSet result = ps.executeQuery();
-
-        if(result.next()) {
-            result.close();
-            con.close();
-            FacesMessage errorMessage = new FacesMessage("Email is already taken.");
+        if(!(returnable.equals("valid"))){
+            usernameErrorMessage = returnable;
+            FacesMessage errorMessage = new FacesMessage(usernameErrorMessage);
             throw new ValidatorException(errorMessage);
-        }
-        ps = con.prepareStatement(
-                        "select employee.id from employee where employee.username = ?");
-        ps.setString(1, login);
-        
-        result = ps.executeQuery();
-
-        if(result.next()) {
-            result.close();
-            con.close();
-            FacesMessage errorMessage = new FacesMessage("Email is already taken.");
-            throw new ValidatorException(errorMessage);
-        }
+        }       
     }
     
     public void validateEmail(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
-        email = value.toString();
+        String email = value.toString();
         if(!(email.contains("@"))){
             FacesMessage errorMessage = new FacesMessage("Email is invalid.");
             throw new ValidatorException(errorMessage);
@@ -208,18 +128,20 @@ public class Register implements Serializable {
     public void validateCCNum(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
         String cc_num = value.toString();
-        if(cc_num.length() != 16){
-            FacesMessage errorMessage = new FacesMessage("Credit Card Number is not 16 digits long.");
+        if(value.toString().length() != 16){
+            ccNumErrorMesssage = "Credit card numer must be sixteen digits long.";
+            FacesMessage errorMessage = new FacesMessage(ccNumErrorMesssage);
             throw new ValidatorException(errorMessage);
         }
         
         if(!(cc_num.matches("[0-9]+"))){
-            FacesMessage errorMessage = new FacesMessage("Credit Card Number is not all digits.");
+            ccNumErrorMesssage = "Credit Card Number is not all digits.";
+            FacesMessage errorMessage = new FacesMessage(ccNumErrorMesssage);
             throw new ValidatorException(errorMessage);
         }
     }
     
-    public void validateCCV(FacesContext context, UIComponent component, Object value)
+    public void validateCRC(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
         String cc_ccv = value.toString();
         if(cc_ccv.length() != 3){
@@ -232,41 +154,24 @@ public class Register implements Serializable {
             throw new ValidatorException(errorMessage);
         }
     }
-    
+        
     public void validateCCDate(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
         String date = value.toString();
         
-        String[] parts = date.split("/");
+        String returnable = Validation.validDate(date);
         
-        // Checks if there are non number values
-        String check = date.replaceAll("/", "");
-        if(!(check.matches("[0-9]+"))){
-            FacesMessage errorMessage = new FacesMessage("Date is not all digits.");
+        if(!(returnable.equals("valid"))){
+            dateErrorMessage = returnable;
+            FacesMessage errorMessage = new FacesMessage(dateErrorMessage);
             throw new ValidatorException(errorMessage);
         }
-        
-        if(parts.length != 3){
-            FacesMessage errorMessage = new FacesMessage("Incorrect date format.");
-            throw new ValidatorException(errorMessage);
+        else{
+            String[] parts = date.split("/");
+            cc_date_month = Integer.parseInt(parts[0]);
+            cc_date_day = Integer.parseInt(parts[1]);
+            cc_date_year = Integer.parseInt(parts[2]);
         }
-        
-        if(parts[0].length() != 2 || parts[1].length() != 2 || parts[2].length() != 4){
-            FacesMessage errorMessage = new FacesMessage("Incorrect date format.");
-            throw new ValidatorException(errorMessage);
-        }
-        
-        // Check if day is valid
-        int month = Integer.parseInt(parts[0]);
-        int day = Integer.parseInt(parts[1]);
-        
-        if(month < 1 || month > 12 || day < 1 || day > 31 ){
-            FacesMessage errorMessage = new FacesMessage("Incorrect date.");
-            throw new ValidatorException(errorMessage);
-        }
-        cc_date_month = Integer.parseInt(parts[0]);
-        cc_date_day = Integer.parseInt(parts[1]);
-        cc_date_year = Integer.parseInt(parts[2]);
     }
 
     public String go() throws ValidatorException, SQLException {
@@ -281,7 +186,7 @@ public class Register implements Serializable {
         PreparedStatement ps
                 = con.prepareStatement(
                         "INSERT INTO customer VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        ps.setString(1, login);
+        ps.setString(1, username);
         ps.setString(2, password);
         ps.setString(3, first_name);
         ps.setString(4, last_name);
@@ -290,11 +195,10 @@ public class Register implements Serializable {
         ps.setString(7, city);
         ps.setString(8, state);
         ps.setString(9, cc_num);
-        ps.setString(10, cc_ccv);
+        ps.setString(10, cc_crc);
         ps.setDate(11, inputDate);
         
         ps.executeUpdate();
-        
         con.close();
         
         return "success";
@@ -305,7 +209,6 @@ public class Register implements Serializable {
        
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         Login outerLogin = (Login) elContext.getELResolver().getValue(elContext, null, "login");
-        System.out.println(outerLogin.getLogin());
        
         if (con == null) {
             throw new SQLException("Can't get database connection");
@@ -314,8 +217,6 @@ public class Register implements Serializable {
         PreparedStatement ps
                 = con.prepareStatement(
                         "UPDATE employee SET username = ?, password = ? WHERE employee.id = ?");
-        System.out.println("Password");
-        System.out.println(outerLogin.getPassword());
         ps.setString(1, outerLogin.getLogin());
         ps.setString(2, outerLogin.getPassword());
         ps.setInt(3, outerLogin.getId());

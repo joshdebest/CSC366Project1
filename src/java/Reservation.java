@@ -6,7 +6,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -36,8 +35,8 @@ public class Reservation implements Serializable {
 
     private String start_date_string;
     private String end_date_string;
-    private Date start_date = null;
-    private Date end_date = null;
+    private Calendar start_date = null;
+    private Calendar end_date = null;
     private int start_day;
     private int start_month;
     private int start_year;
@@ -49,8 +48,44 @@ public class Reservation implements Serializable {
     private String room_num;
     private String choice;
     private List<String> choices;
+    private String bedChoice;
+    private String viewChoice;
+    private String[] bedChoices = {"single king", "double queen"};
+    private String[] viewChoices = {"ocean", "pool"};
     
     private DBConnect dbConnect = new DBConnect();
+
+    public String getBedChoice() {
+        return bedChoice;
+    }
+
+    public void setBedChoice(String bedChoice) {
+        this.bedChoice = bedChoice;
+    }
+
+    public String getViewChoice() {
+        return viewChoice;
+    }
+
+    public void setViewChoice(String viewChocie) {
+        this.viewChoice = viewChocie;
+    }
+
+    public String[] getBedChoices() {
+        return bedChoices;
+    }
+
+    public void setBedChoices(String[] bedChoices) {
+        this.bedChoices = bedChoices;
+    }
+
+    public String[] getViewChoices() {
+        return viewChoices;
+    }
+
+    public void setViewChoices(String[] viewChoices) {
+        this.viewChoices = viewChoices;
+    }
 
     public String getChoice() {
         return choice;
@@ -61,26 +96,62 @@ public class Reservation implements Serializable {
     }
 
     public String[] getChoices() throws SQLException {
-        System.out.println("HERE 1");
         choices = new ArrayList<>();
-        String niceStr;
-        System.out.println("HERE 1");
+        Calendar temp_start;
+        Calendar temp_end;
+        String temp_room_num;
+
+        ResultSet temp_results;
         Connection con = dbConnect.getConnection();
         
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
-        System.out.println("HERE 1");
-        PreparedStatement ps = con.prepareStatement("select room_num, view, bed_type from room");
+        PreparedStatement ps = con.prepareStatement(
+                "SELECT room_num, view, bed_type "
+              + "From room "
+              + "WHERE view = ? AND bed_type = ?");
+        ps.setString(1, viewChoice);
+        ps.setString(2, bedChoice);
         
-        ResultSet result = ps.executeQuery();
-        System.out.println("HERE 1");
-        while (result.next()) {
-            niceStr = result.getString("room_num") + " -- " + result.getString("view")
-                    + " view -- " + result.getString("bed_type");
-            choices.add(niceStr);
+        ResultSet roomResults = ps.executeQuery();
+        
+        while (roomResults.next()) {
+            temp_room_num = roomResults.getString("room_num");
+            
+            ps = con.prepareStatement("SELECT start_date, end_date FROM reservation WHERE room_number = ? AND start_date BETWEEN ? AND ?");
+            temp_end = (Calendar) end_date.clone();
+            temp_end.add(Calendar.DATE, -1);
+            ps.setString(1, temp_room_num);
+            ps.setDate(2, new Date(start_date.getTime().getTime()));
+            ps.setDate(3, new Date(temp_end.getTime().getTime()));
+            temp_results = ps.executeQuery();
+            
+            if(!(temp_results.next())){
+                ps = con.prepareStatement("SELECT start_date, end_date FROM reservation WHERE room_number = ? AND end_date BETWEEN ? AND ?");
+                temp_start = (Calendar) start_date.clone();
+                temp_start.add(Calendar.DATE, +1);
+                ps.setString(1, temp_room_num);
+                ps.setDate(2, new Date(temp_start.getTime().getTime()));
+                ps.setDate(3, new Date(end_date.getTime().getTime()));
+                temp_results = ps.executeQuery();
+
+                if(!(temp_results.next())){
+                    ps = con.prepareStatement("SELECT start_date, end_date FROM reservation WHERE room_number = ? AND ? BETWEEN start_date AND end_date");
+                    temp_start = (Calendar) start_date.clone();
+                    temp_start.add(Calendar.DATE, +1);
+                    ps.setString(1, temp_room_num);
+                    temp_end = (Calendar) end_date.clone();
+                    temp_end.add(Calendar.DATE, -1);
+                    ps.setDate(2, new Date(temp_start.getTime().getTime()));
+                    temp_results = ps.executeQuery();
+                    if(!(temp_results.next())){
+                        choices.add(temp_room_num);
+                    }
+                }
+            }   
         }
-        result.close(); 
+        roomResults.close();
         con.close();
         System.out.println("HERE 1");
         String[] temp = new String[choices.size()];
@@ -174,31 +245,24 @@ public class Reservation implements Serializable {
         }
         
         //Now make sure it is in the future.
-        java.util.Date today = Calendar.getInstance().getTime();
-        start_date = new Date(start_year, start_month, start_day);
+        Calendar today = Calendar.getInstance();
+        System.out.println("THIS RIGHT HERE");
+        System.out.println(today.toString());
+        System.out.println(today.YEAR);
+        System.out.println(today.MONTH);
+        System.out.println(today.DATE);
+        start_date = Calendar.getInstance();
+        start_date.set(start_year, start_month - 1, start_day);
         
-        if(start_year < today.getYear()){
+        if(start_date.compareTo(today) < 0){
             start_date = null;
             startDateErrorMessage = "Date is in the past.";
             FacesMessage errorMessage = new FacesMessage(startDateErrorMessage);
             throw new ValidatorException(errorMessage);
         }
-        else if(start_year == today.getYear()){
-            if(start_month < today.getMonth()){
-                start_date = null;
-                startDateErrorMessage = "Date is in the past.";
-                FacesMessage errorMessage = new FacesMessage(startDateErrorMessage);
-                throw new ValidatorException(errorMessage);
-            }
-            else if(start_month == today.getMonth()){
-                if(start_day < today.getDay()){
-                    start_date = null;
-                    startDateErrorMessage = "Date is in the past.";
-                    FacesMessage errorMessage = new FacesMessage(startDateErrorMessage);
-                    throw new ValidatorException(errorMessage);
-                }
-            }
-        }  
+        else{
+            System.out.println("THIS IS DOPE");
+        } 
     }
     
     public void validateEndDate(FacesContext context, UIComponent component, Object value)
@@ -239,20 +303,20 @@ public class Reservation implements Serializable {
         }
         
         //Now make sure it is in the future.
-        java.util.Date today = Calendar.getInstance().getTime();
-        end_date = new Date(end_year, end_month, end_day);
+        Calendar today = Calendar.getInstance();
+        end_date = Calendar.getInstance();
+        end_date.set(end_year, end_month - 1, end_day);
         
         if(start_date == null){
-            return;
+            endDateErrorMessage = "Must have valid start date first.";
+            FacesMessage errorMessage = new FacesMessage(endDateErrorMessage);
+            throw new ValidatorException(errorMessage);
         }
         
         if(end_date.compareTo(start_date) <= 0){
             endDateErrorMessage = "End date is not after start date.";
             FacesMessage errorMessage = new FacesMessage(endDateErrorMessage);
             throw new ValidatorException(errorMessage);
-        }
-        else{
-            System.out.println("I KNEW IT PART 2");
         }
     }   
     
@@ -273,8 +337,8 @@ public class Reservation implements Serializable {
         PreparedStatement ps
                 = con.prepareStatement(
                         "INSERT INTO reservation VALUES (?, ?, ?, ?)");
-        ps.setDate(1, start_date);
-        ps.setDate(2, end_date);
+        ps.setDate(1, new Date(start_date.getTime().getTime()));
+        ps.setDate(2, new Date(end_date.getTime().getTime()));
         ps.setString(3, choice.substring(0, 3));
         ps.setInt(4, login.getId());
         

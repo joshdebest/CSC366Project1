@@ -32,6 +32,11 @@
         <managed-bean-name>employee</managed-bean-name>
         <managed-bean-class>Employee</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>reservation</managed-bean-name>
+        <managed-bean-class>Reservation</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>  
     <navigation-rule>
         <from-view-id>
@@ -44,15 +49,6 @@
         <navigation-case>
             <from-outcome>register</from-outcome>
             <to-view-id>register.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule> 
-    <navigation-rule>
-        <from-view-id>
-            /register.xhtml
-        </from-view-id>
-        <navigation-case>
-            <from-outcome>success</from-outcome>
-            <to-view-id>index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
     <navigation-rule>
@@ -75,7 +71,20 @@
             <from-outcome>rebuildRooms</from-outcome>
             <to-view-id>buildFloorDB.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>makeReservation</from-outcome>
+            <to-view-id>makeReservation.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
+        <navigation-rule>
+        <from-view-id>
+            /register.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
     <navigation-rule>
         <from-view-id>
             /createNewEmployee.xhtml

@@ -56,6 +56,7 @@ public class Employee implements Serializable {
         this.last_name = last_name;
     }
     
+    
     public void validateUsername(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException{
         username = value.toString();

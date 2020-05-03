@@ -35,12 +35,22 @@ public class Login implements Serializable {
     private String password;
     
     private boolean isEmployee;
+    private boolean isAdmin;
+    private boolean isCustomer;
     private int id = 0;
     
     private UIInput loginUI;
 
     public boolean isEmployee() {
         return isEmployee;
+    }
+    
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+    
+    public boolean isCustomer(){
+        return isCustomer;
     }
 
     public int getId() {
@@ -101,11 +111,13 @@ public class Login implements Serializable {
             result.close();
             con.close();
             isEmployee = false;
+            isAdmin = false;
+            isCustomer = true;
             return; 
         }
         
         ps = con.prepareStatement(
-                        "select employee.id from employee where employee.username = ? AND employee.password = ?");
+                        "select employee.id, employee.is_admin from employee where employee.username = ? AND employee.password = ?");
         ps.setString(1, login);
         ps.setString(2, password);
         
@@ -113,9 +125,11 @@ public class Login implements Serializable {
 
         if(result.next()) {
             id = result.getInt("id");
+            isAdmin = result.getBoolean("is_admin");
             result.close();
             con.close();
             isEmployee = true;
+            isCustomer = false;
             return; 
         }
         

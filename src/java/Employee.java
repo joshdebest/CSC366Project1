@@ -22,79 +22,31 @@ public class Employee implements Serializable {
     private String password;
     private String first_name;
     private String last_name;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
     
-    
+    private String usernameErrorMessage;
+
+    public String getUsername() {return username;}
+    public void setUsername(String username) {this.username = username;}
+    public String getPassword() {return password;}
+    public void setPassword(String password) {this.password = password;}
+    public String getFirst_name() {return first_name;}
+    public void setFirst_name(String first_name) {this.first_name = first_name;}
+    public String getLast_name() {return last_name;}
+    public void setLast_name(String last_name) {this.last_name = last_name;}
+
+
     public void validateUsername(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException{
-        username = value.toString();
-        Connection con = dbConnect.getConnection();
-        
-        if (con == null) {
-            throw new SQLException("Can't get database connection");
-        }
-        PreparedStatement ps = con.prepareStatement(
-                        "select customer.id from customer where customer.username = ?");
-        ps.setString(1, username);
-        
-        ResultSet result = ps.executeQuery();
-
-        if(result.next()) {
-            result.close();
-            con.close();
-            FacesMessage errorMessage = new FacesMessage("Email is already taken.");
-            throw new ValidatorException(errorMessage);
-        }
-        /* Gets current login id. If the username already exists when they validate it, but it is theirs,
-            that must be allowed */
-        
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-        Login outerLogin = (Login) elContext.getELResolver().getValue(elContext, null, "login");
+        Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
         
-        ps = con.prepareStatement(
-                        "select employee.id from employee where employee.username = ? AND employee.id != ?");
-        ps.setString(1, username);
-        ps.setInt(2, outerLogin.getId());
+        String returnable = Validation.validateUsername(value.toString(), login.getId());
         
-        result = ps.executeQuery();        
-
-        if(result.next()) {  
-            result.close();
-            con.close();
-            FacesMessage errorMessage = new FacesMessage("Email is already taken.");
+        if(!(returnable.equals("valid"))){
+            usernameErrorMessage = returnable;
+            FacesMessage errorMessage = new FacesMessage(usernameErrorMessage);
             throw new ValidatorException(errorMessage);
-        }
+        }       
     }
     
     public String go() throws ValidatorException, SQLException {

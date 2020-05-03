@@ -55,6 +55,41 @@ public class Validation {
         return "valid";
     }
     
+    public static String validateUsername(String username, int id) throws SQLException{
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        PreparedStatement ps = con.prepareStatement(
+                        "SElECT customer.id FROM customer WHERE customer.username = ? AND customer.id != ?");
+        ps.setString(1, username);
+        ps.setInt(2, id);
+        
+        ResultSet result = ps.executeQuery();
+
+        if(result.next()) {
+            result.close();
+            con.close();
+            return "Username is already taken.";
+        }
+        ps = con.prepareStatement(
+                        "SELECT employee.id FROM employee WHERE employee.username = ? AND employee.id != ?");
+        ps.setString(1, username);
+        ps.setInt(2, id);
+        
+        result = ps.executeQuery();
+
+        if(result.next()) {
+            System.out.println("Here");
+            System.out.println(result.getString("id"));
+            result.close();
+            con.close();
+            return "Username is already taken.";
+        }
+        return "valid";
+    }
+    
     public static String validatePassword(String password) {
         if(password.length() < 6){
             return "Password must be six characters long,";

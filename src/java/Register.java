@@ -217,7 +217,7 @@ public class Register implements Serializable {
         PreparedStatement ps
                 = con.prepareStatement(
                         "UPDATE employee SET username = ?, password = ? WHERE employee.id = ?");
-        ps.setString(1, outerLogin.getLogin());
+        ps.setString(1, outerLogin.getUsername());
         ps.setString(2, outerLogin.getPassword());
         ps.setInt(3, outerLogin.getId());
         

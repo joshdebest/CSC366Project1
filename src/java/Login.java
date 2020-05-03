@@ -29,7 +29,7 @@ import javax.inject.Named;
 @ManagedBean
 public class Login implements Serializable {
 
-    private String login;
+    private String username;
     private DBConnect dbConnect = new DBConnect();
    
     private String password;
@@ -41,53 +41,21 @@ public class Login implements Serializable {
     
     private UIInput loginUI;
 
-    public boolean isEmployee() {
-        return isEmployee;
-    }
-    
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-    
-    public boolean isCustomer(){
-        return isCustomer;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-        
-    public UIInput getLoginUI() {
-        return loginUI;
-    }
-
-    public void setLoginUI(UIInput loginUI) {
-        this.loginUI = loginUI;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public boolean isEmployee() {return isEmployee;}
+    public boolean isAdmin() {return isAdmin;}
+    public boolean isCustomer(){return isCustomer;}
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
+    public UIInput getLoginUI() {return loginUI;}
+    public void setLoginUI(UIInput loginUI) {this.loginUI = loginUI;}
+    public String getUsername() {return username;}
+    public void setUsername(String username) {this.username = username;}
+    public String getPassword() {return password;}
+    public void setPassword(String password) {this.password = password;}
 
     public void validate(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
-        login = loginUI.getLocalValue().toString();
+        username = loginUI.getLocalValue().toString();
         password = value.toString();
         
         Connection con = dbConnect.getConnection();
@@ -99,7 +67,7 @@ public class Login implements Serializable {
         PreparedStatement ps
                 = con.prepareStatement(
                         "select customer.id from customer where customer.username = ? AND customer.password = ?");
-        ps.setString(1, login);
+        ps.setString(1, username);
         ps.setString(2, password);
         
         //get customer data from database
@@ -118,7 +86,7 @@ public class Login implements Serializable {
         
         ps = con.prepareStatement(
                         "select employee.id, employee.is_admin from employee where employee.username = ? AND employee.password = ?");
-        ps.setString(1, login);
+        ps.setString(1, username);
         ps.setString(2, password);
         
         result = ps.executeQuery();

@@ -25,6 +25,8 @@ public class Customer implements Serializable {
     private String name;
     private String address;
     private Date created_date;
+    private String first_name;
+    private String last_name;
 
     
     public Integer getCustomerID() throws SQLException {
@@ -236,5 +238,29 @@ public class Customer implements Serializable {
         Integer row = ps.executeUpdate();
         con.close();
         return "success";
+    }
+    public Integer getCustomerByName() throws SQLException {
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "select * from customer where customer.username = ?");
+        ps.setString(1,name);
+
+        //get customer data from database
+        ResultSet result = ps.executeQuery();
+
+        result.next();
+
+        Integer id = result.getInt("id");
+        return id;
+    }
+    public String getCustomerByNamePartOne() throws SQLException {
+        getCustomerByName();
+        return "go";
     }
 }

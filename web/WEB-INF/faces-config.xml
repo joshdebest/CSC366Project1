@@ -79,6 +79,10 @@
             <from-outcome>deleteEmployee</from-outcome>
             <to-view-id>deleteEmployee.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>checkReservation</from-outcome>
+            <to-view-id>checkReservation.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
         <navigation-rule>
         <from-view-id>
@@ -134,6 +138,15 @@
     <navigation-rule>
         <from-view-id>
             /pickRoom.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+        <navigation-rule>
+        <from-view-id>
+            /checkReservation.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>

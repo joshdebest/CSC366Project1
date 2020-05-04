@@ -19,16 +19,16 @@
             </h:panelGrid>
             
             <h:panelGrid columns="3">    
-                Date: <h:inputText value="#{room.input_date_string}" required="true"
-                                        validatorMessage="#{reservation.startDateErrorMessage}"
-                                        validator="#{reservation.validateStartDate}"
+                Date: <h:inputText value="#{room.inputStr}" required="true"
+                                        validator="#{room.validateDate}"
+                                        validatorMessage="#{room.dateErrorMessage}"
                                         requiredMessage="Must enter a date"
                                         id="inputdate"/>
                 <h:message for="inputdate" style="color:red;margin:16px"/>
                 
                 New Price: <h:inputText value="#{room.newPrice}" required="true"
                                         requiredMessage="Must enter a new price"
-                                        id="newprice" pt:placeholder="Enter Price"/>
+                                        id="newprice"/>
                 <h:message for="newprice" style="color:red;margin:16px"/>
             </h:panelGrid>
             

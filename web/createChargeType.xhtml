@@ -6,28 +6,31 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css"/>
-        <title>Room Price Change</title>
-        <h1>Change Room Prices</h1>
+        <title>New Charge</title>
+        <h1>Add New Charge Type</h1>
     </h:head>
     <h:body>
         <h:form>
             
-            <h:panelGrid columns="3">    
-                Date: <h:inputText value="#{room.input_date_string}" required="true"
-                                        validatorMessage="#{reservation.startDateErrorMessage}"
-                                        validator="#{reservation.validateStartDate}"
-                                        requiredMessage="Must enter a date"
-                                        id="inputdate"/>
-                <h:message for="inputdate" style="color:red;margin:16px"/>
+            <h:panelGrid columns="3">
                 
-                New Price: <h:inputText value="#{room.newPrice}" required="true"
-                                        requiredMessage="Must enter a new price"
-                                        id="newprice" pt:placeholder="Enter Price"/>
-                <h:message for="newprice" style="color:red;margin:16px"/>
+                Description: <h:inputText value="#{ExtraCharge.desc}"required="true"
+                                        requiredMessage="Must enter a description"
+                                        id="descinput"/>
+                <h:message for="descinput" style="color:red;margin:16px"/>
+                    
             </h:panelGrid>
             
-            <h:panelGrid columns="3">                
-                <h:commandButton value = "Submit" action="#{room.changeRoomPrice()}"/>
+            <h:panelGrid columns="3">    
+                Price: <h:inputText value="#{ExtraCharge.price}" required="true"
+                                        requiredMessage="Must enter a number"
+                                        id="priceinput"/>
+                <h:message for="priceinput" style="color:red;margin:16px"/>
+
+            </h:panelGrid>
+            
+            <h:panelGrid columns="3">
+                <h:commandButton value = "Submit" action="#{ExtraCharge.addChargeType()}"/>
             </h:panelGrid>
             
         </h:form>

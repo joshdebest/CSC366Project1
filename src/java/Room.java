@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,10 +17,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
-import java.util.Date;
 import java.util.TimeZone;
 import javax.el.ELContext;
 import javax.faces.bean.ManagedProperty;
+
 /**
  *
  * @author joshdebest
@@ -29,29 +30,29 @@ import javax.faces.bean.ManagedProperty;
 @ManagedBean
 public class Room implements Serializable {
     
-    private DBConnect dbConnect = new DBConnect();
     private String room_num;
     private String choice;    
     private float newPrice;
-    private String input_date_string; 
+    private String inputStr; 
     private Calendar inputDate = null;
     private List<String> choices;
     private int date_month;
     private int date_day;
     private int date_year;
-    private String dateErrorMessage;
+    private String dateErrorMessage = "";
+    
+    private DBConnect dbConnect = new DBConnect();
   
+    public String getInputStr() {return inputStr;}
+    public void setInputStr(String inputStr) {this.inputStr = inputStr;}
     public String getRoom_num() {return room_num;}
     public void setRoom_num(String room_num) {this.room_num = room_num;}
     public String getChoice() {return choice;}
     public void setChoice(String choice) {this.choice = choice;}
     public float getNewPrice() {return newPrice;}
-    public void setNewPrice(String choice) {this.choice = choice;}
-    public String getEndDateErrorMessage() {return dateErrorMessage;}
-    public void setEndDateErrorMessage(String endDateErrorMessage) {this.dateErrorMessage = endDateErrorMessage;}
-    public String getInput_date_string() {return input_date_string;}
-    public void setInputDateString(String input_data_string) {this.input_date_string = input_date_string;}
-    
+    public void setNewPrice(float newPrice) {this.newPrice = newPrice;}
+    public String getDateErrorMessage() {return dateErrorMessage;}
+    public void setDateErrorMessage(String dateErrorMessage) {this.dateErrorMessage = dateErrorMessage;}
     
     public String[] getAllRooms() throws SQLException {
         choices = new ArrayList<>();
@@ -85,26 +86,28 @@ public class Room implements Serializable {
     
     public void validateDate(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
-        String date = value.toString();
         
-        String returnable = Validation.validDate(date);
+        inputStr = value.toString();
+        System.out.println(inputStr + "LMAOOOOOOOOOO");
+        String returnable = Validation.validDate(inputStr);
         
-        if(!(returnable.equals("valid"))){
+        
+        if(returnable.equals("valid")){
+            inputDate = Validation.getCalObj(inputStr);
+        }
+        else{
             dateErrorMessage = returnable;
             FacesMessage errorMessage = new FacesMessage(dateErrorMessage);
             throw new ValidatorException(errorMessage);
         }
-        else{
-            String[] parts = date.split("/");
-            date_month = Integer.parseInt(parts[0]);
-            date_day = Integer.parseInt(parts[1]);
-            date_year = Integer.parseInt(parts[2]);
-        }
     }
     
     public String changeRoomPrice() throws SQLException {
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
+        
         Connection con = dbConnect.getConnection();
-        java.sql.Date inputDate = new java.sql.Date(date_year, date_month, date_day);
+        //java.sql.Date inputDate = new java.sql.Date(date_year, date_month, date_day);
 
         if (con == null) {
             throw new SQLException("Can't get database connection");
@@ -114,14 +117,14 @@ public class Room implements Serializable {
         PreparedStatement ps
             = con.prepareStatement("INSERT INTO room_prices VALUES (?, ?, ?)");
         ps.setFloat(1, newPrice);
-        ps.setDate(11, inputDate);
-        ps.setString(2, room_num);
+        ps.setDate(2, new Date(inputDate.getTime().getTime()));
+        ps.setString(3, choice);
             
         ps.executeUpdate();
         
         con.commit();
         con.close();
-        return "refresh";
+        return "success";
     }
     
     public String go() throws ValidatorException, SQLException {

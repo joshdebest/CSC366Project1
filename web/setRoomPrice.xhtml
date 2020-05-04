@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <link href="css/stylesheet.css" rel="stylesheet" type="text/css"/>
+        <title>Room Price Change</title>
+        <h1>Change Room Prices</h1>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="3">
+                
+                Room Number:    <h:selectOneMenu value="#{room.choice}">
+                                    <f:selectItems value="#{room.getAllRooms()}"/>
+                                </h:selectOneMenu>
+            </h:panelGrid>
+            
+            <h:panelGrid columns="3">    
+                Date: <h:inputText value="#{room.inputStr}" required="true"
+                                        validator="#{room.validateDate}"
+                                        validatorMessage="#{room.dateErrorMessage}"
+                                        requiredMessage="Must enter a date"
+                                        id="inputdate"/>
+                <h:message for="inputdate" style="color:red;margin:16px"/>
+                
+                New Price: <h:inputText value="#{room.newPrice}" required="true"
+                                        requiredMessage="Must enter a new price"
+                                        id="newprice"/>
+                <h:message for="newprice" style="color:red;margin:16px"/>
+            </h:panelGrid>
+            
+            <h:panelGrid columns="3">                
+                <h:commandButton value = "Submit" action="#{room.changeRoomPrice()}"/>
+            </h:panelGrid>
+            
+        </h:form>
+    </h:body>
+</html>

@@ -8,10 +8,27 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
 
-        <title><ui:insert name="title">Sample Title</ui:insert></title>
+        <title><ui:insert name="title">ACME Hotel</ui:insert></title>
     </h:head>
 
     <h:body>
+        <div id ="banner">
+            <ui:insert name="banner">
+                <h:outputStylesheet name="css/stylesheet.css"/>
+                <div class="mainBanner">
+                    <img src="acmelogo.png"/>
+                    <div class="bannerUname">
+                        <ui:insert name="uname">
+                            <h:form>
+                                <h:commandButton value="Logout" 
+                                                 action="#{login.logout()}"/>
+                            </h:form>
+                        </ui:insert>
+                    </div>
+                </div>
+                
+            </ui:insert>
+        </div>
         <div id ="header">
             <h1>
                 <ui:insert name="header">
@@ -22,9 +39,6 @@
         <div id="mainContainer">
             <div id="left" class="subContainer greyBox">
                 <ui:insert name="box">Sample Box Content</ui:insert>
-            </div>
-            <div id="right" class="subContainer">
-                <img src="duke.png" alt="Duke waving" />
             </div>
         </div>
     </h:body>

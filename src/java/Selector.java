@@ -33,17 +33,29 @@ public class Selector implements Serializable {
         Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
         choices = new ArrayList<>(Arrays.asList("List All Customers"));
         
-        if(login.isEmployee()){
+        if(login.isEmployee() && !login.isAdmin()){
+            choices.add("Check In a Customer");
+            choices.add("Check Out a Customer");
             choices.add("Change username/password");
+            choices.add("Create Customer");
+            choices.add("View Room Prices");
+            choices.add("Add Charges");
+            choices.add("Make reservation");
+            choices.add("Check Reservations");
         }
-        if(login.isAdmin()){
+        else if(login.isAdmin()){
+            choices.add("Change username/password");
             choices.add("Add employee account");
-            choices.add("Rebuild Room Database");
             choices.add("Delete employee account.");
+            choices.add("View Room Prices");
+            choices.add("Change Room Prices");
+
         }
         else if(login.isCustomer()){
-            choices.add("Make reservtion");
+            choices.add("Make reservation");
+            choices.add("Check Reservation");
         }
+        
         String[] temp = new String[choices.size()];
         List<String> condenser = choices;
         for(int i = 0; i < condenser.size(); i++){
@@ -78,10 +90,24 @@ public class Selector implements Serializable {
                 return "createEmployee";
             case "Rebuild Room Database":
                 return "rebuildRooms"; 
-            case "Make reservtion":
+            case "Make reservation":
                 return "makeReservation";                 
             case "Delete employee account.":
                 return "deleteEmployee";
+            case "Check Reservation":
+                return "checkReservation";
+            case "Create Customer":
+                return "register";
+            case "Check Reservations":
+                return "checkReservations";
+            case "Change Room Prices":
+                return "setRoomPrice";
+            case "Add Charges":
+                return "extraCharges";
+            case "Check In a Customer":
+                return "checkIn";
+            case "Check Out a Customer":
+                return "checkOut";
             default:
                 return null;
         }

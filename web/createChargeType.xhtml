@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <link href="css/stylesheet.css" rel="stylesheet" type="text/css"/>
+        <title>New Charge</title>
+        <h1>Add New Charge Type</h1>
+    </h:head>
+    <h:body>
+        <h:form>
+            
+            <h:panelGrid columns="3">
+                
+                Description: <h:inputText value="#{ExtraCharge.desc}"required="true"
+                                        requiredMessage="Must enter a description"
+                                        id="descinput"/>
+                <h:message for="descinput" style="color:red;margin:16px"/>
+                    
+            </h:panelGrid>
+            
+            <h:panelGrid columns="3">    
+                Price: <h:inputText value="#{ExtraCharge.price}" required="true"
+                                        requiredMessage="Must enter a number"
+                                        id="priceinput"/>
+                <h:message for="priceinput" style="color:red;margin:16px"/>
+
+            </h:panelGrid>
+            
+            <h:panelGrid columns="3">
+                <h:commandButton value = "Submit" action="#{ExtraCharge.addChargeType()}"/>
+            </h:panelGrid>
+            
+        </h:form>
+    </h:body>
+</html>

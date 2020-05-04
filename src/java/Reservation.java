@@ -46,6 +46,8 @@ public class Reservation implements Serializable {
     private String viewChoice;
     private String[] bedChoices = {"single king", "double queen"};
     private String[] viewChoices = {"ocean", "pool"};
+    private Integer resID;
+    private Integer customerID;
     
     private DBConnect dbConnect = new DBConnect();
 
@@ -68,8 +70,11 @@ public class Reservation implements Serializable {
     public void setStart_date_string(String start_date_string) {this.start_date_string = start_date_string;}
     public String getEnd_date_string() {return end_date_string;}
     public void setEnd_date_string(String end_date_string) {this.end_date_string = end_date_string;}
-
-    /* The choices returned are simly the room numbers that have the correct view and bed type
+    public Integer getCustomerID(){return this.customerID;}
+    public void setCustomerID(Integer customerID){this.customerID = customerID;}
+    public Integer getResID(){return this.resID;}
+    public void setResID(Integer resID){this.resID = resID;}
+    /* The choices returned are simply the room numbers that have the correct view and bed type
        that are available on the dates chosen. */
     public String[] getChoices() throws SQLException {
         choices = new ArrayList<>();
@@ -215,4 +220,79 @@ public class Reservation implements Serializable {
         con.close();
         return "success";
     }    
+        public List<Reservation> getResByID() throws ValidatorException, SQLException {
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
+        
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "SELECT * FROM reservation WHERE customer_id = ?");
+
+        ps.setInt(1, login.getId());
+        
+        ResultSet result = ps.executeQuery();
+        List<Reservation> list = new ArrayList<Reservation>();
+        while(result.next()){
+            Reservation res = new Reservation();
+            res.setCustomerID(result.getInt("customer_id"));
+            res.setResID(result.getInt("reservation_id"));
+            res.setRoom_num(result.getString("room_number"));
+            res.setStart_date_string(result.getString("start_date"));
+            res.setEnd_date_string(result.getString("end_date"));
+            list.add(res);
+        }
+        result.close();
+        con.close();
+        return list;
+    }  
+        public String cancel(Integer resID) throws ValidatorException, SQLException{
+                    Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "DELETE FROM reservation WHERE reservation_id = ?");
+        ps.setInt(1,resID);
+        //get customer data from database
+        Integer row = ps.executeUpdate();
+        con.close();
+        return "success";
+    }
+    public List<Reservation> getResList() throws ValidatorException, SQLException {
+
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "SELECT * FROM reservation");
+
+        ResultSet result = ps.executeQuery();
+        List<Reservation> list = new ArrayList<Reservation>();
+        while(result.next()){
+            Reservation res = new Reservation();
+            res.setCustomerID(result.getInt("customer_id"));
+            res.setResID(result.getInt("reservation_id"));
+            res.setRoom_num(result.getString("room_number"));
+            res.setStart_date_string(result.getString("start_date"));
+            res.setEnd_date_string(result.getString("end_date"));
+            list.add(res);
+        }
+        result.close();
+        con.close();
+        return list;
+    }  
 }
+

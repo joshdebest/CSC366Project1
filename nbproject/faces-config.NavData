@@ -9,10 +9,14 @@
         <Node id="createNewEmployee.xhtml" x="400" y="150" zoom="true"/>
         <Node id="pickRoom.xhtml" x="400" y="300" zoom="true"/>
         <Node id="buildFloorDB.xhtml" x="150" y="450" zoom="true"/>
-        <Node id="deleteEmployee.xhtml" x="900" y="150" zoom="true"/>
-        <Node id="template.xhtml" x="153" y="233" zoom="true"/>
         <Node id="employeeSettings.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="checkReservation.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="checkReservations.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="deleteEmployee.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="confirmEmployeeDelete.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="template.xhtml" x="153" y="233" zoom="true"/>
         <Node id="register.xhtml" x="396" y="345" zoom="true"/>
+        <Node id="setRoomPrice.xhtml" x="1150" y="150" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>

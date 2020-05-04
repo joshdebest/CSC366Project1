@@ -37,18 +37,37 @@
         <managed-bean-name>reservation</managed-bean-name>
         <managed-bean-class>Reservation</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>  
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>room</managed-bean-name>
+        <managed-bean-class>Room</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>validation</managed-bean-name>
+        <managed-bean-class>Validation</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>logout</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+      
     <navigation-rule>
         <from-view-id>
             /index.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>start.xhtml</to-view-id>
+            <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>register</from-outcome>
-            <to-view-id>register.xhtml</to-view-id>
+            <to-view-id>/register.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
     <navigation-rule>
@@ -57,15 +76,15 @@
         </from-view-id>
         <navigation-case>
             <from-outcome>listCustomers</from-outcome>
-            <to-view-id>showAllCustomers.xhtml</to-view-id>
+            <to-view-id>/showAllCustomers.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>changeSettings</from-outcome>
-            <to-view-id>employeeSettings.xhtml</to-view-id>
+            <to-view-id>/employeeSettings.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>createEmployee</from-outcome>
-            <to-view-id>createNewEmployee.xhtml</to-view-id>
+            <to-view-id>/createNewEmployee.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>rebuildRooms</from-outcome>
@@ -77,16 +96,40 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>deleteEmployee</from-outcome>
-            <to-view-id>deleteEmployee.xhtml</to-view-id>
+            <to-view-id>/deleteEmployee.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>checkReservation</from-outcome>
+            <to-view-id>/checkReservation.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>checkReservations</from-outcome>
+            <to-view-id>/checkReservations.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/register.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>setRoomPrice</from-outcome>
+            <to-view-id>/setRoomPrice.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>checkIn</from-outcome>
+            <to-view-id>/checkIn.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>checkOut</from-outcome>
+            <to-view-id>/checkOut.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-        <navigation-rule>
+    <navigation-rule>
         <from-view-id>
             /register.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>index.xhtml</to-view-id>
+            <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
     <navigation-rule>
@@ -95,7 +138,7 @@
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>start.xhtml</to-view-id>
+            <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -104,13 +147,13 @@
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>start.xhtml</to-view-id>
+            <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <navigation-case>
             <from-outcome>main</from-outcome>
-            <to-view-id>start.xhtml</to-view-id>
+            <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -119,7 +162,7 @@
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>start.xhtml</to-view-id>
+            <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -128,12 +171,21 @@
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>pickRoom.xhtml</to-view-id>
+            <to-view-id>/pickRoom.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>
             /pickRoom.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>
+            /checkReservation.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
@@ -146,16 +198,16 @@
         </from-view-id>
         <navigation-case>
             <from-outcome>move on</from-outcome>
-            <to-view-id>confirmEmployeeDelete.xhtml</to-view-id>
+            <to-view-id>/confirmEmployeeDelete.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-        <navigation-rule>
+    <navigation-rule>
         <from-view-id>
             /confirmEmployeeDelete.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>
-            <to-view-id>start.xhtml</to-view-id>
+            <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

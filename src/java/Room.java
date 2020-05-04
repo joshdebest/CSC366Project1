@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,7 +18,6 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import java.util.TimeZone;
 import javax.el.ELContext;
-import javax.faces.bean.ManagedProperty;
 
 /**
  *
@@ -36,9 +34,6 @@ public class Room implements Serializable {
     private String inputStr; 
     private Calendar inputDate = null;
     private List<String> choices;
-    private int date_month;
-    private int date_day;
-    private int date_year;
     private String dateErrorMessage = "";
     
     private DBConnect dbConnect = new DBConnect();
@@ -113,7 +108,6 @@ public class Room implements Serializable {
             throws ValidatorException, SQLException {
         
         inputStr = value.toString();
-        System.out.println(inputStr + "LMAOOOOOOOOOO");
         String returnable = Validation.validDate(inputStr);
         
         

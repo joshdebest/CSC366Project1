@@ -29,28 +29,30 @@ import javax.inject.Named;
 @SessionScoped
 @ManagedBean
 public class ExtraCharge implements Serializable {
-    private DBConnect dbConnect = new DBConnect();
     private String desc;
     private float price;
-    private int res_id;
-    private int charge_type;
+    private Integer res_id;
+    private Integer charge_type;
     private List<String> types_list;
 
-    
-    public int getResID(){
+    private DBConnect dbConnect = new DBConnect();
+        
+    public Integer getRes_id(){
         return res_id;
     }
-    public void setResID(int res_id){
+    public void setRes_id(Integer res_id){
         this.res_id = res_id;
     }
-    public int getChargeID(){
-        return res_id;
+    public Integer getCharge_id(){
+        return charge_type;
     }
-    public void setChargeID(int charge_type){
+    public void setCharge_id(Integer charge_type){
         this.charge_type = charge_type;
     }
     public String getDesc() {return desc;}
-    public void setDesc(String choice) {this.desc = desc;}
+    public void setDesc(String desc) {this.desc = desc;}
+    public float getPrice() {return price;}
+    public void setPrice(float price) {this.price = price;}
     
     public String[] getChargeTypes() throws SQLException {
         types_list = new ArrayList<>();
@@ -87,13 +89,18 @@ public class ExtraCharge implements Serializable {
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
-        PreparedStatement ps = con.prepareStatement(
-                "INSERT into charge_type(description, price) values (" + desc + "," + price + ")");
+        PreparedStatement ps 
+                = con.prepareStatement("INSERT into charge_type(description, price) VALUES (?, ?)"); 
+        ps.setString(1, desc);
+        ps.setFloat(2, price);
         
-        ResultSet Res = ps.executeQuery();
-        Res.close();
+        ps.executeUpdate();
         con.close();
         return "success";
+    }
+    
+    public String go() throws ValidatorException, SQLException {
+        return "go";
     }
     
     public String addCharge() throws SQLException {
@@ -101,11 +108,22 @@ public class ExtraCharge implements Serializable {
         if (con == null) {
             throw new SQLException("Can't get database connection");
     }
-        PreparedStatement ps = con.prepareStatement(
-                "INSERT into extra_charge(reservation_id, charge_type) values (" + res_id + "," + charge_type + ")");
+        PreparedStatement ps1 
+                = con.prepareStatement("SELECT charge_id from charge_type WHERE description = ?");
+        ps1.setString(1, desc);
         
-        ResultSet Res = ps.executeQuery();
-        Res.close();
+        ResultSet Res1 = ps1.executeQuery();
+        while (Res1.next()) {
+            charge_type = Res1.getInt("charge_id");
+        }
+        Res1.close();
+        
+        PreparedStatement ps2 
+                = con.prepareStatement("INSERT into extra_charge(reservation_id, charge_type) VALUES (?, ?)");
+        ps2.setInt(1, res_id);
+        ps2.setInt(2, charge_type);
+        ps2.executeUpdate();
+        
         con.close();
         return "success";
     }

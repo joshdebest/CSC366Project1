@@ -33,22 +33,22 @@ public class Selector implements Serializable {
         choices = new ArrayList<>();
         
         if(login.isEmployee()){
+            choices.add("Add Charges");
             choices.add("Check In a Customer");
             choices.add("Check Out a Customer");
+            choices.add("Check Reservations");
             choices.add("Change username/password");
             choices.add("Create Customer");
+            choices.add("Make reservation");
+            choices.add("Make reservation");
             choices.add("View Room Prices");
-            choices.add("Add Charges");
-            choices.add("Make reservation");
-            choices.add("Check Reservations");
-            choices.add("Make reservation");
         }
         else if(login.isAdmin()){
-            choices.add("Change username/password");
             choices.add("Add employee account");
+            choices.add("Change username/password");
+            choices.add("Change Room Prices");
             choices.add("Delete employee account.");
             choices.add("View Room Prices");
-            choices.add("Change Room Prices");
         }
         else if(login.isCustomer()){
             choices.add("Make reservation");

@@ -57,6 +57,7 @@ public class Room implements Serializable {
     public String[] getAllRooms() throws SQLException {
         choices = new ArrayList<>();
         String temp_room_num;
+        String temp_room_price;
         String[] temp;
         Connection con = dbConnect.getConnection();
 
@@ -65,13 +66,15 @@ public class Room implements Serializable {
         }
 
         PreparedStatement ps
-                = con.prepareStatement("SELECT room_num from room");
+                = con.prepareStatement("SELECT * from room");
 
         //get list of all room numbers from database
         ResultSet roomResults = ps.executeQuery();
         while (roomResults.next()) {
             temp_room_num = roomResults.getString("room_num");
+            temp_room_price = roomResults.getString("base_price");
             choices.add(temp_room_num);
+            choices.add(temp_room_price);
         }
         roomResults.close();
         con.close();

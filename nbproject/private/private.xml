@@ -5,11 +5,10 @@
         <group>
             <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/web/WEB-INF/faces-config.xml</file>
             <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/src/java/Register.java</file>
-            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/web/employeeSettings.xhtml</file>
             <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/src/java/Employee.java</file>
-            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/src/java/Login.java</file>
-            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/web/index.xhtml</file>
-            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/src/java/Validation.java</file>
+            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/web/confirmEmployeeDelete.xhtml</file>
+            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/src/java/Selector.java</file>
+            <file>file:/Users/aberard/Programming/NetBeans%20Stuff/CSC366Project1/web/deleteEmployee.xhtml</file>
         </group>
     </open-files>
 </project-private>

@@ -109,13 +109,6 @@ public class Reservation implements Serializable {
                     + "(end_date BETWEEN ? AND ?) OR "
                     + "(? BETWEEN start_date AND end_date))");
             
-            /*
-            /* This query finds out if any reservations coincide with the selected dates
-            ps = con.prepareStatement("SELECT start_date, end_date FROM reservation WHERE room_number = ? AND start_date BETWEEN ? AND ? OR "
-                    + "room_number = ? AND end_date BETWEEN ? AND ? OR "
-                    + "room_number = ? AND ? BETWEEN start_date AND end_date");
-            */
-            
             /* Lots of changing around dates and stuff just to make it work with the 
                inclusice BETWEEN */
             temp_end = (Calendar) end_date.clone();

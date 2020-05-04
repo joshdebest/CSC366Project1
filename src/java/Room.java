@@ -72,9 +72,7 @@ public class Room implements Serializable {
         ResultSet roomResults = ps.executeQuery();
         while (roomResults.next()) {
             temp_room_num = roomResults.getString("room_num");
-            temp_room_price = roomResults.getString("base_price");
             choices.add(temp_room_num);
-            choices.add(temp_room_price);
         }
         roomResults.close();
         con.close();
@@ -85,6 +83,30 @@ public class Room implements Serializable {
             temp[i] = condenser.get(i);
         }
         return temp;        
+    }
+    public List<Room> getPrices() throws SQLException{
+        List<Room> list = new ArrayList<Room>();
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement("SELECT * from room");
+
+        //get list of all room numbers from database
+        ResultSet roomResults = ps.executeQuery();
+        while (roomResults.next()) {
+            Room room = new Room();
+            room.setRoom_num(roomResults.getString("room_num"));
+            room.setNewPrice(Float.parseFloat(roomResults.getString("base_price").substring(1)));
+            list.add(room);
+        }
+        roomResults.close();
+        con.close();
+
+        return list;  
     }
     
     public void validateDate(FacesContext context, UIComponent component, Object value)

@@ -5,14 +5,18 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
-        <h1>Customers</h1>
+        <h1>Room Prices</h1>
     </h:head>
 
     <h:body>
-        <h:dataTable value="#{room.getAllRooms()}" var="r" border="1">
+        <h:dataTable value="#{room.getPrices()}" var="r" border="1">
             <h:column>
-                <f:facet name="header"> Room/Price </f:facet>
-                    #{r}
+                <f:facet name="header"> Room </f:facet>
+                    #{r.room_num}
+            </h:column>
+                        <h:column>
+                <f:facet name="header"> Price </f:facet>
+                    #{r.newPrice}
             </h:column>
 
 

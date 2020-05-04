@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
+        <title>Employee Reservation</title>
+        <h1>Reservation Screen</h1>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="3">
+                
+                Start Date: <h:inputText value="#{reservation.start_date_string}" required ="true"
+                                         validatorMessage="#{reservation.startDateErrorMessage}"
+                                        validator="#{reservation.validateStartDate}"
+                                        requiredMessage="You must enter a start date."
+                                        id="start_date"/>
+                <h:message for="start_date" style="color:red;margin:8px;"/> 
+                
+                End Date: <h:inputText value="#{reservation.end_date_string}" required ="true"
+                                         validatorMessage="#{reservation.endDateErrorMessage}"
+                                        validator="#{reservation.validateEndDate}"
+                                        requiredMessage="You must enter an end date."
+                                        id="end_date"/>
+                <h:message for="end_date" style="color:red;margin:8px;"/>
+                
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                View: 
+                <h:selectOneMenu value="#{reservation.viewChoice}">
+                    <f:selectItems value="#{reservation.viewChoices}"/>
+                </h:selectOneMenu>
+                
+                Bed Type:
+                <h:selectOneMenu value="#{reservation.bedChoice}">
+                    <f:selectItems value="#{reservation.bedChoices}"/>
+                </h:selectOneMenu>
+                
+                Customer:
+                <h:selectOneMenu value="#{reservation.resUsername}">
+                    <f:selectItems value="#{customer.getCustomerListUsernames()}"/>
+                </h:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid>
+                <h:commandButton value="Confirm dates and pick room" action="#{reservation.go}"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+
+

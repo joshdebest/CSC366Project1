@@ -101,6 +101,10 @@
             <to-view-id>makeReservation.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>makeReservationEmp</from-outcome>
+            <to-view-id>makeReservationEmp.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>deleteEmployee</from-outcome>
             <to-view-id>/deleteEmployee.xhtml</to-view-id>
         </navigation-case>
@@ -242,6 +246,7 @@
         </navigation-case>
     </navigation-rule>
 
+
         <navigation-rule>
         <from-view-id>
             /SelectDate.xhtml
@@ -259,7 +264,17 @@
             <from-outcome></from-outcome>
             <to-view-id>/checkIn2.xhtml</to-view-id>
 		</navigation-case>
-    
+	</navigation-rule>
+    <navigation-rule>
+        <from-view-id>
+            /makeReservationEmp.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pickRoom.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
     <navigation-rule>
         <from-view-id>
             /setRoomPrice.xhtml
@@ -269,7 +284,6 @@
             <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    
     <navigation-rule>
         <from-view-id>
             /extraCharges.xhtml
@@ -283,7 +297,6 @@
             <to-view-id>/createChargeType.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    
     <navigation-rule>
         <from-view-id>
             /createChargeType.xhtml

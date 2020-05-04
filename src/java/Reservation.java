@@ -47,7 +47,8 @@ public class Reservation implements Serializable {
     private String[] bedChoices = {"single king", "double queen"};
     private String[] viewChoices = {"ocean", "pool"};
     private Integer resID;
-    private Integer customerID;
+    private Integer customerID = 0;
+    private String resUsername = "";
     
     private DBConnect dbConnect = new DBConnect();
 
@@ -74,6 +75,9 @@ public class Reservation implements Serializable {
     public void setCustomerID(Integer customerID){this.customerID = customerID;}
     public Integer getResID(){return this.resID;}
     public void setResID(Integer resID){this.resID = resID;}
+    public String getResUsername() {return resUsername;}
+    public void setResUsername(String resUsername) {this.resUsername = resUsername;}
+    
     /* The choices returned are simply the room numbers that have the correct view and bed type
        that are available on the dates chosen. */
     @SuppressWarnings("empty-statement")
@@ -196,6 +200,9 @@ public class Reservation implements Serializable {
     }   
     
     public String go() throws ValidatorException, SQLException {
+        if(resUsername != ""){
+            customerID = Customer.userNameToId(resUsername);
+        }
         return "success";
     }
 
@@ -212,6 +219,9 @@ public class Reservation implements Serializable {
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
+        if(customerID == 0){
+            customerID = login.getId();
+        }
 
         PreparedStatement ps
                 = con.prepareStatement(
@@ -219,7 +229,7 @@ public class Reservation implements Serializable {
         ps.setDate(1, new Date(start_date.getTime().getTime()));
         ps.setDate(2, new Date(end_date.getTime().getTime()));
         ps.setString(3, choice.substring(0, 3));
-        ps.setInt(4, login.getId());
+        ps.setInt(4, customerID);
         
         ps.executeUpdate();
         con.close();
@@ -267,7 +277,7 @@ public class Reservation implements Serializable {
         con.close();
         return list;
     }  
-        public String cancel(Integer resID) throws ValidatorException, SQLException{
+    public String cancel(Integer resID) throws ValidatorException, SQLException{
                     Connection con = dbConnect.getConnection();
 
         if (con == null) {

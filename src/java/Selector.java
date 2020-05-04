@@ -32,7 +32,7 @@ public class Selector implements Serializable {
         Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
         choices = new ArrayList<>();
         
-        if(login.isEmployee() && !login.isAdmin()){
+        if(login.isEmployee()){
             choices.add("Check In a Customer");
             choices.add("Check Out a Customer");
             choices.add("Change username/password");

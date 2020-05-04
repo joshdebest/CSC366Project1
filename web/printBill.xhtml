@@ -10,22 +10,22 @@
         <h1>Checking Out</h1>
     </h:head>
     <h:body>
-        <h:form>
-            <h:panelGrid columns="3">                    
-               First Name: <h:inputText value="#{customer.first_name}" required ="true"
-                                       requiredMessage="Your must enter a name."
-                                       id="firstname"/>
-                <h:message for="firstname" style="color:red;margin:8px;"/>
-            </h:panelGrid>
-            <h:panelGrid columns="3">                    
-               First Name: <h:inputText value="#{customer.last_name}" required ="true"
-                                       requiredMessage="Your must enter a name."
-                                       id="lastname"/>
-                <h:message for="lastname" style="color:red;margin:8px;"/>
-            </h:panelGrid>
-            <h:panelGrid>
-                <h:commandButton value="Check Out" action="#{employee.go}"/>
-            </h:panelGrid>
-        </h:form>
+        <h:dataTable value="#{customer.getCustomerList()}" var="c" border="1">
+            <h:column>
+                <f:facet name="header"> Customer ID </f:facet>
+                    #{c.customerID}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"> Name </f:facet>
+                    #{c.name}
+            </h:column>
+            <h:column>
+                <f:facet name="header"> </f:facet>
+                <h:form>
+                    <h:commandButton value="Delete" action="#{customer.delete(c.customerID)}"/> 
+                </h:form>
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>

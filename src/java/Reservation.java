@@ -111,7 +111,7 @@ public class Reservation implements Serializable {
                     + "WHERE room_number = ? AND "
                     + "((start_date BETWEEN ? AND ?) OR "
                     + "(end_date BETWEEN ? AND ?) OR "
-                    + "(? BETWEEN start_date AND end_date))");
+                    + "(? BETWEEN start_date AND end_date + INTERVAL '-1 day'))");
             
             /* Lots of changing around dates and stuff just to make it work with the 
                inclusice BETWEEN */
@@ -232,6 +232,19 @@ public class Reservation implements Serializable {
         ps.setInt(4, customerID);
         
         ps.executeUpdate();
+        
+        ps = con.prepareStatement(
+                        "SELECT reservation.reservation_id FROM reservation WHERE start_date = ? AND end_date = ? AND room_number = ?");
+        ps.setDate(1, new Date(start_date.getTime().getTime()));
+        ps.setDate(2, new Date(end_date.getTime().getTime()));
+        ps.setString(3, choice.substring(0, 3));
+        
+        ResultSet result = ps.executeQuery();
+        
+        result.next();
+        
+        resID = result.getInt("reservation_id");
+        
         con.close();
         
         start_date_string = "";

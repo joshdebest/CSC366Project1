@@ -37,7 +37,7 @@ public class Bill implements Serializable {
     private DBConnect dbConnect = new DBConnect();
 
     
-    public String getBill() throws ValidatorException, SQLException {
+    public String go() throws ValidatorException, SQLException {
         return "go";
     } 
     public String printBill(){

@@ -182,6 +182,10 @@
             <from-outcome>success</from-outcome>
             <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>no rooms</from-outcome>
+            <to-view-id>makeReservation.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>

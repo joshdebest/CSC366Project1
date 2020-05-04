@@ -55,8 +55,7 @@ public class Selector implements Serializable {
         }
         else if(login.isCustomer()){
             choices.add("Make reservtion");
-            choices.add("Check Reservtion");
-            choices.add("Cancel Reservtion");
+            choices.add("Check Reservation");
         }
         String[] temp = new String[choices.size()];
         List<String> condenser = choices;
@@ -96,6 +95,8 @@ public class Selector implements Serializable {
                 return "makeReservation";                 
             case "Delete employee account.":
                 return "deleteEmployee";
+            case "Check Reservation":
+                return "checkReservation";
             default:
                 return null;
         }

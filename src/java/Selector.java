@@ -43,7 +43,7 @@ public class Selector implements Serializable {
             choices.add("Make reservation");
             choices.add("Check Reservations");
         }
-        if(login.isAdmin()){
+        else if(login.isAdmin()){
             choices.add("Change username/password");
             choices.add("Add employee account");
             choices.add("Delete employee account.");
@@ -55,6 +55,7 @@ public class Selector implements Serializable {
             choices.add("Make reservation");
             choices.add("Check Reservation");
         }
+        
         String[] temp = new String[choices.size()];
         List<String> condenser = choices;
         for(int i = 0; i < condenser.size(); i++){
@@ -99,6 +100,12 @@ public class Selector implements Serializable {
                 return "register";
             case "Check Reservations":
                 return "checkReservations";
+            case "Change Room Prices":
+                return "setRoomPrice";
+            case "Check In a Customer":
+                return "checkIn";
+            case "Check Out a Customer":
+                return "checkOut";
             default:
                 return null;
         }

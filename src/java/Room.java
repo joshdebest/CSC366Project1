@@ -27,25 +27,33 @@ import javax.faces.bean.ManagedProperty;
 @Named(value = "room")
 @SessionScoped
 @ManagedBean
-public class Room {
+public class Room implements Serializable {
+    
     private DBConnect dbConnect = new DBConnect();
-    private Integer room_num;
-    private float basePrice;
+    private String room_num;
+    private String choice;    
     private float newPrice;
     private String input_date_string;
     private Calendar inputDate = null;
-    private String choice;
-    
+    private List<String> choices;
     private int date_month;
     private int date_day;
     private int date_year;
     private String dateErrorMessage;
   
-    public Integer getRoomNum() {return room_num;}
+    public String getRoom_num() {return room_num;}
+    public void setRoom_num(String room_num) {this.room_num = room_num;}
     public String getChoice() {return choice;}
     public void setChoice(String choice) {this.choice = choice;}
+    public float getNewPrice() {return newPrice;}
+    public void setNewPrice(String choice) {this.choice = choice;}
+    public String getEndDateErrorMessage() {return dateErrorMessage;}
+    public void setEndDateErrorMessage(String endDateErrorMessage) {this.dateErrorMessage = endDateErrorMessage;}
+    public String getInputDateString() {return input_date_string;}
+    public void setInputDateString(String input_data_string) {this.input_date_string = input_date_string;}
     
-    public List<Room> getAllRooms() throws SQLException {
+    
+    public String[] getAllRooms() throws SQLException {
         Connection con = dbConnect.getConnection();
 
         if (con == null) {
@@ -53,22 +61,21 @@ public class Room {
         }
 
         PreparedStatement ps
-                = con.prepareStatement(
-                        "select * from Room ORDER BY room_num");
+                = con.prepareStatement("SELECT room_num from room");
 
-        //get customer data from database
+        //get list of all room numbers from database
         ResultSet result = ps.executeQuery();
-
-        List<Room> room_list = new ArrayList<Room>();
-
-        while (result.next()) {
-            Room room = new Room();
-            room_list.add(room);
-        }
         result.close();
         con.close();
-        return room_list;
+        System.out.println(result);
+        String[] temp = new String[choices.size()];
+        List<String> condenser = choices;
+        for(int i = 0; i < condenser.size(); i++){
+            temp[i] = condenser.get(i);
+        }
+        return temp;        
     }
+    
     public void validateDate(FacesContext context, UIComponent component, Object value)
             throws ValidatorException, SQLException {
         String date = value.toString();
@@ -101,10 +108,9 @@ public class Room {
             = con.prepareStatement("INSERT INTO room_prices VALUES (?, ?, ?)");
         ps.setFloat(1, newPrice);
         ps.setDate(11, inputDate);
-        ps.setInt(2, room_num);
+        ps.setString(2, room_num);
             
         ps.executeUpdate();
-        
         
         con.commit();
         con.close();

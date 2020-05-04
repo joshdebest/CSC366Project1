@@ -9,28 +9,30 @@
     <h:body>
         <h:form>
             <h:panelGrid columns="3">
-                Login: <h:inputText value="#{employee.username}" required = "true"
-                                    validatorMessage="Username already in use."
-                                    validator="#{register.validateUsername}"
-                                    requiredMessage="Your must enter a username."
-                                    id="login"/>
-                <h:message for="login" style="color:red;margin:8px;"/>
-
-                Password: <h:inputSecret value="#{employee.password}" required ="true"
-                                        requiredMessage="Your must enter a password."
-                                        validatorMessage="Your password must be at least six characters long and include at least one number."
-                                        validator="#{register.validatePassword}"
-                                        id="password"/>
+                Username: <h:inputText value="#{employee.username}" required ="true"
+                                       requiredMessage="Your must enter a username."
+                                       validatorMessage="#{register.usernameErrorMessage}"
+                                       validator="#{register.validateUsername}"
+                                       binding="#{register.loginUI}"
+                                       id="username"/>
+                <h:message for="username" style="color:red;margin:8px;"/>
+                
+                Password: <h:inputText value="#{employee.password}" required ="true"
+                                       requiredMessage="Your must enter a password."
+                                       validatorMessage="#{register.passwordErrorMessage}"
+                                       validator="#{register.validatePassword}"
+                                       id="password"/>
                 <h:message for="password" style="color:red;margin:8px;"/>
                 
                 First Name: <h:inputText value="#{employee.first_name}" required ="true"
-                                        requiredMessage="Your must enter your first name."
-                                        id="first_name"/>
+                                         requiredMessage="Your must enter your first name."
+                                         id="first_name"/>
                 <h:message for="first_name" style="color:red;margin:8px;"/>
                 
                 Last Name: <h:inputText value="#{employee.last_name}" required ="true"
                                         requiredMessage="Your must enter your last name." 
                                         id="last_name"/>
+                
                 <h:message for="last_name" style="color:red;margin:8px;"/>
             </h:panelGrid>
             <h:panelGrid>

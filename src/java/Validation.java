@@ -4,10 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -52,6 +48,11 @@ public class Validation {
             con.close();
             return "Username is already taken.";
         }
+        
+        if(username.replace(" ", "").length() != username.length()){
+            return "No spaces allowed in usernames.";
+        }
+        
         return "valid";
     }
     

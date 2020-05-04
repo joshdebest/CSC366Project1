@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.el.ELContext;
 import javax.faces.application.FacesMessage;
@@ -22,6 +24,7 @@ public class Employee implements Serializable {
     private String password;
     private String first_name;
     private String last_name;
+    private String toDelete;
     
     private String usernameErrorMessage;
 
@@ -33,6 +36,41 @@ public class Employee implements Serializable {
     public void setFirst_name(String first_name) {this.first_name = first_name;}
     public String getLast_name() {return last_name;}
     public void setLast_name(String last_name) {this.last_name = last_name;}
+    public String getToDelete() {return toDelete;}
+    public void setToDelete(String toDelete) {this.toDelete = toDelete;}
+    public String getUsernameErrorMessage() {return usernameErrorMessage;}
+    public void setUsernameErrorMessage(String usernameErrorMessage) {this.usernameErrorMessage = usernameErrorMessage;}
+    
+    public String[] getEmployees() throws SQLException{
+        Connection con = dbConnect.getConnection();
+        String niceStr;
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "select employee.username, employee.first_name, employee.last_name from employee order by employee.last_name");
+
+        //get customer data from database
+        ResultSet result = ps.executeQuery();
+
+        List<String> empls = new ArrayList<>();
+        while (result.next()) {
+            niceStr = result.getString("first_name") + " " + result.getString("last_name") + " -- " + result.getString("username");
+            empls.add(niceStr);
+        }
+        result.close();
+        con.close();
+        
+        String[] returnable = new String[empls.size()];
+        for(int i = 0; i < returnable.length; i++){
+            returnable[i] = empls.get(i);
+        }
+        
+        return returnable;
+    }
 
 
     public void validateUsername(FacesContext context, UIComponent component, Object value)
@@ -47,6 +85,29 @@ public class Employee implements Serializable {
             FacesMessage errorMessage = new FacesMessage(usernameErrorMessage);
             throw new ValidatorException(errorMessage);
         }       
+    }
+    
+    public String partOneDeleteEmployee() throws ValidatorException, SQLException {
+        return "move on";
+    }
+    
+    public String deleteEmployee() throws ValidatorException, SQLException {
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        String justUsername = toDelete.split("--")[1].trim();
+        
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "DELETE FROM employee WHERE username = ?");
+        ps.setString(1, justUsername);
+        ps.executeUpdate();
+        con.close();
+        
+        return "success";
     }
     
     public String go() throws ValidatorException, SQLException {

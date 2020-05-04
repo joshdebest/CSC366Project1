@@ -36,6 +36,7 @@ public class Selector implements Serializable {
             choices.add("Change username/password");
             choices.add("Add employee account");
             choices.add("Rebuild Room Database");
+            choices.add("Delete employee account.");
         }
         else if(login.isCustomer()){
             choices.add("Make reservtion");
@@ -76,6 +77,8 @@ public class Selector implements Serializable {
                 return "rebuildRooms"; 
             case "Make reservtion":
                 return "makeReservation";                 
+            case "Delete employee account.":
+                return "deleteEmployee";
             default:
                 return null;
         }

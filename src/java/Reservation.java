@@ -309,6 +309,7 @@ public class Reservation implements Serializable {
         result.close();
         con.close();
         return list;
+
     }  
         public List<Reservation> getResByCustID() throws ValidatorException, SQLException {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
@@ -339,5 +340,8 @@ public class Reservation implements Serializable {
         con.close();
         return list;
     }  
+
+    }
+
 }
 

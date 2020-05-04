@@ -43,14 +43,14 @@ public class Selector implements Serializable {
             choices.add("Make reservation");
             choices.add("View Room Prices");
         }
-        else if(login.isAdmin()){
+        if(login.isAdmin()){
             choices.add("Add employee account");
             choices.add("Change username/password");
             choices.add("Change Room Prices");
             choices.add("Delete employee account.");
             choices.add("View Room Prices");
         }
-        else if(login.isCustomer()){
+        if(login.isCustomer()){
             choices.add("Make reservation");
             choices.add("Check Reservation");
         }

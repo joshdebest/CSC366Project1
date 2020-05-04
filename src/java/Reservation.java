@@ -76,6 +76,7 @@ public class Reservation implements Serializable {
     public void setResID(Integer resID){this.resID = resID;}
     /* The choices returned are simply the room numbers that have the correct view and bed type
        that are available on the dates chosen. */
+    @SuppressWarnings("empty-statement")
     public String[] getChoices() throws SQLException {
         choices = new ArrayList<>();
         Calendar temp_start;
@@ -102,9 +103,11 @@ public class Reservation implements Serializable {
             temp_room_num = roomResults.getString("room_num");
             
             /* This query finds out if any reservations coincide with the selected dates */
-            ps = con.prepareStatement("SELECT start_date, end_date FROM reservation WHERE room_number = ? AND start_date BETWEEN ? AND ? OR "
-                    + "room_number = ? AND end_date BETWEEN ? AND ? OR "
-                    + "room_number = ? AND ? BETWEEN start_date AND end_date");
+            ps = con.prepareStatement("SELECT start_date, end_date FROM reservation "
+                    + "WHERE room_number = ? AND "
+                    + "((start_date BETWEEN ? AND ?) OR "
+                    + "(end_date BETWEEN ? AND ?) OR "
+                    + "(? BETWEEN start_date AND end_date))");
             
             /* Lots of changing around dates and stuff just to make it work with the 
                inclusice BETWEEN */
@@ -115,15 +118,9 @@ public class Reservation implements Serializable {
             ps.setDate(3, new Date(temp_end.getTime().getTime()));
             temp_start = (Calendar) start_date.clone();
             temp_start.add(Calendar.DATE, +1);
-            ps.setString(4, temp_room_num);
-            ps.setDate(5, new Date(temp_start.getTime().getTime()));
-            ps.setDate(6, new Date(end_date.getTime().getTime()));
-            temp_start = (Calendar) start_date.clone();
-            temp_start.add(Calendar.DATE, +1);
-            ps.setString(7, temp_room_num);
-            temp_end = (Calendar) end_date.clone();
-            temp_end.add(Calendar.DATE, -1);
-            ps.setDate(8, new Date(temp_start.getTime().getTime()));
+            ps.setDate(4, new Date(temp_start.getTime().getTime()));
+            ps.setDate(5, new Date(end_date.getTime().getTime()));
+            ps.setDate(6, new Date(start_date.getTime().getTime()));
             temp_results = ps.executeQuery();
             
             /* If there is a result then that room isn't free the entire time needed 
@@ -137,6 +134,11 @@ public class Reservation implements Serializable {
         
         roomResults.close();
         con.close();
+        
+        if(choices.isEmpty()){
+            String[] returnable = {"No available rooms. Click go to go back to date selection."};
+            return returnable;
+        }
         
         /* Here we just turn the array list into a String[] so it can be returned properly */
         String[] temp = new String[choices.size()];
@@ -198,6 +200,10 @@ public class Reservation implements Serializable {
     }
 
     public String createRes() throws ValidatorException, SQLException {
+        if(choices.isEmpty()){
+            return "no rooms";
+        }
+        
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
         
@@ -216,8 +222,18 @@ public class Reservation implements Serializable {
         ps.setInt(4, login.getId());
         
         ps.executeUpdate();
-        
         con.close();
+        
+        start_date_string = "";
+        end_date_string = "";
+        start_date = null;
+        end_date = null;
+        startDateErrorMessage = "";
+        endDateErrorMessage = "";
+        room_num = null;
+        bedChoice = null; 
+        viewChoice = null;
+        
         return "success";
     }    
         public List<Reservation> getResByID() throws ValidatorException, SQLException {

@@ -108,6 +108,8 @@ public class Selector implements Serializable {
                 return "checkIn";
             case "Check Out a Customer":
                 return "checkOut";
+            case "View Room Prices":
+                return "roomprices";
             default:
                 return null;
         }

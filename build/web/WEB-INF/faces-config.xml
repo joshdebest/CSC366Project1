@@ -132,6 +132,10 @@
             <from-outcome>extraCharges</from-outcome>
             <to-view-id>/extraCharges.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>roomprices</from-outcome>
+            <to-view-id>/roomPrices.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
     
     <navigation-rule>
@@ -197,6 +201,10 @@
         <navigation-case>
             <from-outcome>success</from-outcome>
             <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>no rooms</from-outcome>
+            <to-view-id>makeReservation.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     

@@ -20,16 +20,14 @@
             </h:panelGrid>
             
             <h:panelGrid columns="3">    
-                Reservation ID: <h:inputText value="#{ExtraCharge.res_id}"
-                                        requiredMessage="Must enter a number"
-                                        id="resIDinput"/>
+                Reservation ID: <h:inputText value="#{ExtraCharge.res_id}" id="resIDinput"/>
                 <h:message for="resIDinput" style="color:red;margin:16px"/>
 
             </h:panelGrid>
             
             <h:panelGrid columns="3">
-                <h:commandButton value = "New Charge Type" action="#{ExtraCharge.addChargeType()}"/>                
-                <h:commandButton value = "Submit" action="#{ExtraCharge.addCharge()}"/>
+                <h:commandButton value = "New Charge Type" action="#{ExtraCharge.go}"/>                
+                <h:commandButton value = "Add" action="#{ExtraCharge.addCharge()}"/>
             </h:panelGrid>
             
         </h:form>

@@ -6,28 +6,28 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css"/>
-        <title>Room Price Change</title>
-        <h1>Change Room Prices</h1>
+        <title>Additional Charge</title>
+        <h1>Add Extra Charge</h1>
     </h:head>
     <h:body>
         <h:form>
             
-            <h:panelGrid columns="3">    
-                Date: <h:inputText value="#{room.input_date_string}" required="true"
-                                        validatorMessage="#{reservation.startDateErrorMessage}"
-                                        validator="#{reservation.validateStartDate}"
-                                        requiredMessage="Must enter a date"
-                                        id="inputdate"/>
-                <h:message for="inputdate" style="color:red;margin:16px"/>
+            <h:panelGrid columns="3">
                 
-                New Price: <h:inputText value="#{room.newPrice}" required="true"
-                                        requiredMessage="Must enter a new price"
-                                        id="newprice" pt:placeholder="Enter Price"/>
-                <h:message for="newprice" style="color:red;margin:16px"/>
+                Charge:     <h:selectOneMenu value="#{ExtraCharge.desc}">
+                                    <f:selectItems value="#{ExtraCharge.getChargeTypes()}"/>
+                            </h:selectOneMenu>
             </h:panelGrid>
             
-            <h:panelGrid columns="3">                
-                <h:commandButton value = "Submit" action="#{room.changeRoomPrice()}"/>
+            <h:panelGrid columns="3">    
+                Reservation ID: <h:inputText value="#{ExtraCharge.res_id}" id="resIDinput"/>
+                <h:message for="resIDinput" style="color:red;margin:16px"/>
+
+            </h:panelGrid>
+            
+            <h:panelGrid columns="3">
+                <h:commandButton value = "New Charge Type" action="#{ExtraCharge.go}"/>                
+                <h:commandButton value = "Add" action="#{ExtraCharge.addCharge()}"/>
             </h:panelGrid>
             
         </h:form>

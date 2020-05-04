@@ -48,6 +48,11 @@
         <managed-bean-class>Validation</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>ExtraCharge</managed-bean-name>
+        <managed-bean-class>ExtraCharge</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     
     <navigation-rule>
         <from-view-id>*</from-view-id>
@@ -69,7 +74,8 @@
             <from-outcome>register</from-outcome>
             <to-view-id>/register.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule> 
+    </navigation-rule>
+     
     <navigation-rule>
         <from-view-id>
             /start.xhtml
@@ -122,7 +128,12 @@
             <from-outcome>checkOut</from-outcome>
             <to-view-id>/checkOut.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>extraCharges</from-outcome>
+            <to-view-id>/extraCharges.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>
             /register.xhtml
@@ -131,7 +142,8 @@
             <from-outcome>success</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule> 
+    </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>
             /createNewEmployee.xhtml
@@ -141,6 +153,7 @@
             <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>
             /employeeSettings.xhtml
@@ -150,12 +163,14 @@
             <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
     <navigation-rule>
         <navigation-case>
             <from-outcome>main</from-outcome>
             <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>
             /buildFloorDB.xhtml
@@ -165,6 +180,7 @@
             <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>
             /makeReservation.xhtml
@@ -183,6 +199,7 @@
             <to-view-id>/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>
             /checkReservation.xhtml
@@ -192,6 +209,7 @@
             <to-view-id>start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>
             /deleteEmployee.xhtml
@@ -201,9 +219,44 @@
             <to-view-id>/confirmEmployeeDelete.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
     <navigation-rule>
         <from-view-id>
             /confirmEmployeeDelete.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /setRoomPrice.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /extraCharges.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>go</from-outcome>
+            <to-view-id>/createChargeType.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /createChargeType.xhtml
         </from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>

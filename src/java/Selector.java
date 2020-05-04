@@ -33,16 +33,30 @@ public class Selector implements Serializable {
         Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
         choices = new ArrayList<>(Arrays.asList("List All Customers"));
         
-        if(login.isEmployee()){
+        if(login.isEmployee() && !login.isAdmin()){
+            choices.add("Check In a Customer");
+            choices.add("Check Out a Customer");
             choices.add("Change username/password");
+            choices.add("Create Customer");
+            choices.add("Delete Customer");
+            choices.add("View Room Prices");
+            choices.add("Add Charges");
+            choices.add("View reservation");
+            choices.add("Create a reservation");
+            choices.add("Delete a reservation");
         }
         if(login.isAdmin()){
+            choices.add("Change username/password");
             choices.add("Add employee account");
-            choices.add("Rebuild Room Database");
             choices.add("Delete employee account.");
+            choices.add("View Room Prices");
+            choices.add("Change Room Prices");
+
         }
         else if(login.isCustomer()){
             choices.add("Make reservtion");
+            choices.add("Check Reservtion");
+            choices.add("Cancel Reservtion");
         }
         String[] temp = new String[choices.size()];
         List<String> condenser = choices;

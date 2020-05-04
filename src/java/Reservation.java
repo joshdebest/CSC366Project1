@@ -111,7 +111,7 @@ public class Reservation implements Serializable {
                     + "WHERE room_number = ? AND "
                     + "((start_date BETWEEN ? AND ?) OR "
                     + "(end_date BETWEEN ? AND ?) OR "
-                    + "(? BETWEEN start_date AND end_date))");
+                    + "(? BETWEEN start_date AND end_date + INTERVAL '-1 day'))");
             
             /* Lots of changing around dates and stuff just to make it work with the 
                inclusice BETWEEN */

@@ -307,4 +307,23 @@
 
         </navigation-case>
     </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /checkOut.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>go</from-outcome>
+            <to-view-id>/printBill.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>
+            /printBill.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

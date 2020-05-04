@@ -32,8 +32,11 @@ public class Selector implements Serializable {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
         choices = new ArrayList<>(Arrays.asList("List All Customers"));
-        if(login.isAdmin()){
+        
+        if(login.isEmployee()){
             choices.add("Change username/password");
+        }
+        if(login.isAdmin()){
             choices.add("Add employee account");
             choices.add("Rebuild Room Database");
             choices.add("Delete employee account.");

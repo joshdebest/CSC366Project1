@@ -7,12 +7,24 @@
     <h:head>
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
         <title>Check Out</title>
-        <h1>Check in a Customer</h1>
+        <h1>Checking Out</h1>
     </h:head>
     <h:body>
         <h:form>
             <h:panelGrid columns="3">                    
-               CHECK OUT
+               First Name: <h:inputText value="#{employee.first_name}" required ="true"
+                                       requiredMessage="Your must enter a name."
+                                       id="firstname"/>
+                <h:message for="firstname" style="color:red;margin:8px;"/>
+            </h:panelGrid>
+            <h:panelGrid columns="3">                    
+               Last Name: <h:inputText value="#{employee.last_name}" required ="true"
+                                       requiredMessage="Your must enter a name."
+                                       id="lastname"/>
+                <h:message for="lastname" style="color:red;margin:8px;"/>
+            </h:panelGrid>
+            <h:panelGrid>
+                <h:commandButton value="Check Out" action="#{employee.getBill}"/>
             </h:panelGrid>
         </h:form>
     </h:body>

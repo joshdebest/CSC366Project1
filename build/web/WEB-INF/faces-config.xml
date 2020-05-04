@@ -83,6 +83,14 @@
             <from-outcome>checkReservation</from-outcome>
             <to-view-id>checkReservation.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>checkReservations</from-outcome>
+            <to-view-id>checkReservations.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>register.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
         <navigation-rule>
         <from-view-id>

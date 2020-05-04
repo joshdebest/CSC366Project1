@@ -38,12 +38,10 @@ public class Selector implements Serializable {
             choices.add("Check Out a Customer");
             choices.add("Change username/password");
             choices.add("Create Customer");
-            choices.add("Delete Customer");
             choices.add("View Room Prices");
             choices.add("Add Charges");
-            choices.add("View reservation");
-            choices.add("Create a reservation");
-            choices.add("Delete a reservation");
+            choices.add("Make reservation");
+            choices.add("Check Reservations");
         }
         if(login.isAdmin()){
             choices.add("Change username/password");
@@ -54,7 +52,7 @@ public class Selector implements Serializable {
 
         }
         else if(login.isCustomer()){
-            choices.add("Make reservtion");
+            choices.add("Make reservation");
             choices.add("Check Reservation");
         }
         String[] temp = new String[choices.size()];
@@ -91,12 +89,16 @@ public class Selector implements Serializable {
                 return "createEmployee";
             case "Rebuild Room Database":
                 return "rebuildRooms"; 
-            case "Make reservtion":
+            case "Make reservation":
                 return "makeReservation";                 
             case "Delete employee account.":
                 return "deleteEmployee";
             case "Check Reservation":
                 return "checkReservation";
+            case "Create Customer":
+                return "register";
+            case "Check Reservations":
+                return "checkReservations";
             default:
                 return null;
         }

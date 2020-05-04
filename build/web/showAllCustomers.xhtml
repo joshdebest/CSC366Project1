@@ -19,6 +19,12 @@
                 <f:facet name="header"> Name </f:facet>
                     #{c.name}
             </h:column>
+            <h:column>
+                <f:facet name="header"> </f:facet>
+                <h:form>
+                    <h:commandButton value="Delete" action="#{customer.delete(c.customerID)}"/> 
+                </h:form>
+            </h:column>
         </h:dataTable>
     </h:body>
 </html>

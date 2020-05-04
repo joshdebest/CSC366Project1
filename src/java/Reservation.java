@@ -267,5 +267,32 @@ public class Reservation implements Serializable {
         con.close();
         return "success";
     }
+    public List<Reservation> getResList() throws ValidatorException, SQLException {
+
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
         }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "SELECT * FROM reservation");
+
+        ResultSet result = ps.executeQuery();
+        List<Reservation> list = new ArrayList<Reservation>();
+        while(result.next()){
+            Reservation res = new Reservation();
+            res.setCustomerID(result.getInt("customer_id"));
+            res.setResID(result.getInt("reservation_id"));
+            res.setRoom_num(result.getString("room_number"));
+            res.setStart_date_string(result.getString("start_date"));
+            res.setEnd_date_string(result.getString("end_date"));
+            list.add(res);
+        }
+        result.close();
+        con.close();
+        return list;
+    }  
+}
 

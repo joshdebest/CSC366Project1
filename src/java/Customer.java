@@ -173,4 +173,17 @@ public class Customer implements Serializable {
         con.close();
         return false;
     }
+    
+    private String delete(int id) throws SQLException {
+        Connection con = dbConnect.getConnection();
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps = con.prepareStatement("DELETE FROM customer WHERE id = ?");
+        ps.setInt(1, id);
+        Integer row = ps.executeUpdate();
+        con.close();
+        return "success";
+    }
 }

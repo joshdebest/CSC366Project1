@@ -353,5 +353,3 @@ public class Reservation implements Serializable {
 
     }
 
-}
-

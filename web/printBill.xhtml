@@ -6,26 +6,26 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
-        <title>Check Out</title>
-        <h1>Checking Out</h1>
+        <title>Final Check Out</title>
+        <h1>Your Total Bill</h1>
     </h:head>
     <h:body>
-        <h:dataTable value="#{customer.getCustomerList()}" var="c" border="1">
+    <!--    <h:dataTable value="#{}" var="c" border="1">
             <h:column>
-                <f:facet name="header"> Customer ID </f:facet>
-                    #{c.customerID}
+                <f:facet name="header">  </f:facet>
+                    #{}
             </h:column>
 
             <h:column>
                 <f:facet name="header"> Name </f:facet>
-                    #{c.name}
+                    #{}
             </h:column>
             <h:column>
                 <f:facet name="header"> </f:facet>
                 <h:form>
-                    <h:commandButton value="Delete" action="#{customer.delete(c.customerID)}"/> 
+                    <h:commandButton value="Next" action="#{bill.go}"/> 
                 </h:form>
             </h:column>
-        </h:dataTable>
+        </h:dataTable> -->
     </h:body>
 </html>

@@ -7,7 +7,6 @@
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.el.ELContext;
 import javax.inject.Named;
@@ -31,7 +30,7 @@ public class Selector implements Serializable {
     public String[] getChoices() {
         ELContext elContext = FacesContext.getCurrentInstance().getELContext();
         Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
-        choices = new ArrayList<>(Arrays.asList("List All Customers"));
+        choices = new ArrayList<>();
         
         if(login.isEmployee() && !login.isAdmin()){
             choices.add("Check In a Customer");
@@ -42,6 +41,7 @@ public class Selector implements Serializable {
             choices.add("Add Charges");
             choices.add("Make reservation");
             choices.add("Check Reservations");
+            choices.add("Make reservation");
         }
         else if(login.isAdmin()){
             choices.add("Change username/password");
@@ -49,7 +49,6 @@ public class Selector implements Serializable {
             choices.add("Delete employee account.");
             choices.add("View Room Prices");
             choices.add("Change Room Prices");
-
         }
         else if(login.isCustomer()){
             choices.add("Make reservation");
@@ -81,6 +80,8 @@ public class Selector implements Serializable {
     }
 
     public String transition() {
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+        Login login = (Login) elContext.getELResolver().getValue(elContext, null, "login");
         switch (choice) {
             case "List All Customers":
                 return "listCustomers";
@@ -91,6 +92,9 @@ public class Selector implements Serializable {
             case "Rebuild Room Database":
                 return "rebuildRooms"; 
             case "Make reservation":
+                if(login.isEmployee()){
+                    return "makeReservationEmp";
+                }
                 return "makeReservation";                 
             case "Delete employee account.":
                 return "deleteEmployee";

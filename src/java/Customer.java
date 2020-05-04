@@ -81,6 +81,26 @@ public class Customer implements Serializable {
     public String showCustomer() {
         return "showCustomer";
     }
+    
+    public static int userNameToId(String u_name) throws SQLException {
+        DBConnect dbConnect = new DBConnect();
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "select customer.id from customer where customer.username = ?");
+        ps.setString(1, u_name);
+        //get customer data from database
+        ResultSet result = ps.executeQuery();
+
+        result.next();
+
+        return result.getInt("id");
+    }
 
     public Customer getCustomer() throws SQLException {
         Connection con = dbConnect.getConnection();
@@ -131,6 +151,37 @@ public class Customer implements Serializable {
         result.close();
         con.close();
         return list;
+    }
+    
+    public String[] getCustomerListUsernames() throws SQLException {
+
+        Connection con = dbConnect.getConnection();
+
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement ps
+                = con.prepareStatement(
+                        "select customer.username from customer order by customer.username");
+
+        //get customer data from database
+        ResultSet result = ps.executeQuery();
+
+        List<String> list = new ArrayList<String>();
+
+        while (result.next()) {
+            list.add(result.getString("username"));
+        }
+        result.close();
+        con.close();
+
+        String[] returnable = new String[list.size()];
+        for(int i = 0; i < list.size(); i++){
+            returnable[i] = list.get(i);
+        }
+        
+        return returnable;
     }
 
     public void customerIDExists(FacesContext context, UIComponent componentToValidate, Object value)

@@ -11,12 +11,6 @@
     </h:head>
     <h:body>
         <h:form>
-            <h:panelGrid columns="3">
-                
-                Room Number:    <h:selectOneMenu value="#{room.choice}">
-                                    <f:selectItems value="#{room.getAllRooms()}"/>
-                                </h:selectOneMenu>
-            </h:panelGrid>
             
             <h:panelGrid columns="3">    
                 Date: <h:inputText value="#{room.input_date_string}" required="true"

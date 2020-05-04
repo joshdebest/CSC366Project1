@@ -33,7 +33,7 @@ public class Room implements Serializable {
     private String room_num;
     private String choice;    
     private float newPrice;
-    private String input_date_string;
+    private String input_date_string; 
     private Calendar inputDate = null;
     private List<String> choices;
     private int date_month;
@@ -49,11 +49,14 @@ public class Room implements Serializable {
     public void setNewPrice(String choice) {this.choice = choice;}
     public String getEndDateErrorMessage() {return dateErrorMessage;}
     public void setEndDateErrorMessage(String endDateErrorMessage) {this.dateErrorMessage = endDateErrorMessage;}
-    public String getInputDateString() {return input_date_string;}
+    public String getInput_date_string() {return input_date_string;}
     public void setInputDateString(String input_data_string) {this.input_date_string = input_date_string;}
     
     
     public String[] getAllRooms() throws SQLException {
+        choices = new ArrayList<>();
+        String temp_room_num;
+        String[] temp;
         Connection con = dbConnect.getConnection();
 
         if (con == null) {
@@ -64,11 +67,15 @@ public class Room implements Serializable {
                 = con.prepareStatement("SELECT room_num from room");
 
         //get list of all room numbers from database
-        ResultSet result = ps.executeQuery();
-        result.close();
+        ResultSet roomResults = ps.executeQuery();
+        while (roomResults.next()) {
+            temp_room_num = roomResults.getString("room_num");
+            choices.add(temp_room_num);
+        }
+        roomResults.close();
         con.close();
-        System.out.println(result);
-        String[] temp = new String[choices.size()];
+        
+        temp = new String[choices.size()];
         List<String> condenser = choices;
         for(int i = 0; i < condenser.size(); i++){
             temp[i] = condenser.get(i);
@@ -115,5 +122,9 @@ public class Room implements Serializable {
         con.commit();
         con.close();
         return "refresh";
+    }
+    
+    public String go() throws ValidatorException, SQLException {
+        return "success";
     }
 }

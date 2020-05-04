@@ -102,6 +102,8 @@ public class Selector implements Serializable {
                 return "checkReservations";
             case "Change Room Prices":
                 return "setRoomPrice";
+            case "Add Charges":
+                return "extraCharges";
             case "Check In a Customer":
                 return "checkIn";
             case "Check Out a Customer":

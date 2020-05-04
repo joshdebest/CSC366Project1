@@ -115,5 +115,10 @@ public class Login implements Serializable {
         //Util.invalidateUserSession();
         return "register";
     }
+    
+    public String logout() {
+        Util.invalidateUserSession();
+        return "logout";
+    }
 
 }

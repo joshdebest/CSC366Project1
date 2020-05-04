@@ -6,20 +6,36 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <link href="css/stylesheet.css" rel="stylesheet" type="text/css"/>
+        <title>Room Price Change</title>
         <h1>Change Room Prices</h1>
     </h:head>
     <h:body>
         <h:form>
             <h:panelGrid columns="3">
                 
-                Room Number: <h:selectOneMenu value="#{room.choice}">
-                    <f:selectItems value="#{room.getAllRooms()}"/>
-                </h:selectOneMenu>
+                Room Number:    <h:selectOneMenu value="#{room.choice}">
+                                    <f:selectItems value="#{room.getAllRooms()}"/>
+                                </h:selectOneMenu>
+            </h:panelGrid>
+            
+            <h:panelGrid columns="3">    
+                Date: <h:inputText value="#{room.input_date_string}" required="true"
+                                        validatorMessage="#{reservation.startDateErrorMessage}"
+                                        validator="#{reservation.validateStartDate}"
+                                        requiredMessage="Must enter a date"
+                                        id="inputdate"/>
+                <h:message for="inputdate" style="color:red;margin:16px"/>
                 
-                
-                
+                New Price: <h:inputText value="#{room.newPrice}" required="true"
+                                        requiredMessage="Must enter a new price"
+                                        id="newprice" pt:placeholder="Enter Price"/>
+                <h:message for="newprice" style="color:red;margin:16px"/>
+            </h:panelGrid>
+            
+            <h:panelGrid columns="3">                
                 <h:commandButton value = "Submit" action="#{room.changeRoomPrice()}"/>
             </h:panelGrid>
+            
         </h:form>
     </h:body>
 </html>

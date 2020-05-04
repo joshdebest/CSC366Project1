@@ -74,7 +74,7 @@ public class Reservation implements Serializable {
     public void setCustomerID(Integer customerID){this.customerID = customerID;}
     public Integer getResID(){return this.resID;}
     public void setResID(Integer resID){this.resID = resID;}
-    /* The choices returned are simly the room numbers that have the correct view and bed type
+    /* The choices returned are simply the room numbers that have the correct view and bed type
        that are available on the dates chosen. */
     public String[] getChoices() throws SQLException {
         choices = new ArrayList<>();

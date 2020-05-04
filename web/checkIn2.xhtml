@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <link href="css/stylesheet.css" rel="stylesheet" type="text/css" />
+        <h1>Reservations</h1>
+    </h:head>
+
+    <h:body>
+        <h:dataTable value="#{reservation.getResByCustID()}" var="r" border="1">
+            <h:column>
+                <f:facet name="header"> Customer ID </f:facet>
+                    #{r.customerID}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"> Reservation ID </f:facet>
+                    #{r.resID}
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header"> Start </f:facet>
+                    #{r.start_date_string}
+            </h:column>
+
+                    <h:column>
+                <f:facet name="header"> End </f:facet>
+                    #{r.end_date_string}
+            </h:column>        
+            <h:column>
+                <f:facet name="header"> Room </f:facet>
+                    #{r.room_num}
+            </h:column>
+        </h:dataTable>
+    </h:body>
+</html>

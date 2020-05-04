@@ -109,7 +109,7 @@ public class Selector implements Serializable {
             case "Check Out a Customer":
                 return "checkOut";
             case "View Room Prices":
-                return "roomprices";
+                return "SelectDate";
             default:
                 return null;
         }

@@ -123,8 +123,8 @@
             <to-view-id>/checkOut.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>roomprices</from-outcome>
-            <to-view-id>/roomPrices.xhtml</to-view-id>
+            <from-outcome>SelectDate</from-outcome>
+            <to-view-id>/SelectDate.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -216,6 +216,24 @@
         <navigation-case>
             <from-outcome>success</from-outcome>
             <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+        <navigation-rule>
+        <from-view-id>
+            /SelectDate.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome></from-outcome>
+            <to-view-id>/roomPrices.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+            <navigation-rule>
+        <from-view-id>
+            /checkIn.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome></from-outcome>
+            <to-view-id>/checkIn2.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
